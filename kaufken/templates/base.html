@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% block title %}
+    <title>Base HTML</title>
+    {% endblock %}
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    {% block extra_head %}  <!-- Bloque para estilos adicionales -->
+    {% endblock %}
+</head>
+<body>
+    <header>
+        <a href="/">
+            👤
+        </a>
+        <button>
+            Perfil Usuario
+        </button>
+    </header>
+    <aside>
+        <h2>Navegación</h2>
+        <ul>
+            <li>
+                <details class="details_productos">
+                <summary>Productos <span>⬇️</span></summary>
+                    <ul>
+                        <li><a href="#">Crear Producto</a></li>
+                        <li><a href="#">Ver Producto</a></li>
+                        <li><a href="#">Modificar Producto</a></li>
+                        <li><a href="#">Eliminar Producto</a></li>
+                    </ul>
+                </details>
+            </li>
+            <li><a href="#">Ventas</a></li>
+            <li><a href="#">Configuración</a></li>
+            <li><a href="#">Ayuda</a></li>
+            {% if user.is_staff %}
+                <li><a href="admin/">Manejo de usuarios</a></li>
+            {% endif %}
+            <li><a href="{% url 'users:register' %}">Registrarse</a></li>
+            <li><a href="{% url 'users:login' %}">Login</a></li>
+            <li>
+                <form class = "logout" 
+                action="{% url 'users:logout' %}" 
+                method = "post" >
+
+                {% csrf_token %}
+                
+                <button class = "logout-button" aria-label = "Logout Button" title="Cerrar Session">Cerrar Session</button>
+
+            </form>
+        </li>
+        </ul>
+    </aside>
+    <main>
+        {% block content %}
+        {% endblock %}
+    </main>
+    <footer>
+        <p>&copy; 2024 Mi Dashboard</p>
+    </footer>
+</body>
+</html>
+</html>

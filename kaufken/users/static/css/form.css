@@ -1,0 +1,54 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    display: grid;
+    grid-template-areas:
+        "header header"
+        "main main"
+        "footer footer";
+    grid-template-rows: 60px 1fr 40px;
+    height: 100vh;
+}
+
+header {
+    grid-area: header;
+    background-color: #af534c;
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center; /* Alineación centrada */
+    padding: 0 20px;
+}
+
+footer {
+    grid-area: footer;
+    background-color: #4CAF50;
+    color: white;
+    text-align: center;
+    padding: 10px;
+}
+
+main {
+    grid-area: main;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.form-validation {
+    color: red;
+    font-size: 12px;
+    text-align: center; /* Centrar mensaje de validación */
+    display: flex;
+   flex-direction: column;
+   gap: 10px;
+}
+
+div {
+    display: flex;
+    gap: 10px;
+    flex-direction: column;
+}

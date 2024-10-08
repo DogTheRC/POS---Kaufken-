@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% block title %}
+    <title>Base Form</title>
+    {% endblock %}
+    <link rel="stylesheet" href="{% static '/css/form.css' %}">
+    {% block extra_head %}  <!-- Bloque para estilos adicionales -->
+    {% endblock %}
+</head>
+<body>
+    <header>
+        <a href="{% url 'users:login' %}">
+            Logo Empresa
+        </a>
+    </header>
+    <main>
+        {% block content %}
+        {% endblock %}
+    </main>
+    <footer>
+        <p>&copy; 2024 Panaderia Kofken</p>
+    </footer>
+</body>
+</html>
+</html>
