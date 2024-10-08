@@ -23,22 +23,25 @@
     <aside>
         <h2>Navegación</h2>
         <ul>
+            {% if user.is_staff %}
             <li>
+                
                 <details class="details_productos">
                 <summary>Productos <span>⬇️</span></summary>
                     <ul>
-                        <li><a href="#">Crear Producto</a></li>
+                        <li><a href="{% url 'productos:crear' %}">Crear Producto</a></li>
                         <li><a href="#">Ver Producto</a></li>
                         <li><a href="#">Modificar Producto</a></li>
                         <li><a href="#">Eliminar Producto</a></li>
                     </ul>
                 </details>
             </li>
+            {% endif %}
             <li><a href="#">Ventas</a></li>
             <li><a href="#">Configuración</a></li>
             <li><a href="#">Ayuda</a></li>
-            {% if user.is_staff %}
-                <li><a href="admin/">Manejo de usuarios</a></li>
+            {% if user.is_superuser %}
+                <li><a href="/admin/">Manejo de usuarios</a></li>
             {% endif %}
             <li><a href="{% url 'users:register' %}">Registrarse</a></li>
             <li><a href="{% url 'users:login' %}">Login</a></li>
