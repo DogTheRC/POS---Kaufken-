@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'users',
     'productos',
+    'widget_tweaks',
 ]
 
 MIDDLEWARE = [
@@ -114,6 +115,9 @@ TIME_ZONE = 'America/Santiago'
 USE_I18N = True
 
 USE_TZ = True
+
+USE_L10N = True
+
 
 
 # Static files (CSS, JavaScript, Images)
