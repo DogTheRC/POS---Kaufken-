@@ -29,16 +29,7 @@
         <ul>
             {% if user.is_staff %}
             <li>
-                
-                <details class="details_productos">
-                <summary>Productos <span>⬇️</span></summary>
-                    <ul>
-                        <li><a href="{% url 'productos:crear' %}">Crear Producto</a></li>
-                        <li><a href="{% url 'productos:listarProductos'%}">Ver Producto</a></li>
-                        <li><a href="#">Modificar Producto</a></li>
-                        <li><a href="#">Eliminar Producto</a></li>
-                    </ul>
-                </details>
+                <a href="{% url 'productos:manejoInventario' %}"> Inventario </a>
             </li>
             {% endif %}
             <li><a href="#">Ventas</a></li>
