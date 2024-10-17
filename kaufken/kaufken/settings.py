@@ -59,7 +59,11 @@ ROOT_URLCONF = 'kaufken.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': ['templates'],
+        'DIRS': [
+            BASE_DIR / 'templates',
+            BASE_DIR / 'productos' / 'templates',
+            
+            ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [

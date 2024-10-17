@@ -29,7 +29,7 @@ class ProductoForm(forms.ModelForm):
             'descripcion': forms.Textarea(attrs={'class': 'form-control', 'placeholder': 'Descripción', 'rows': 3}),
             'imagen': forms.ClearableFileInput(attrs={'class': 'form-control-file'}),
             'stock': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'Cantidad en stock'}),
-            'codigo_qr': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Código QR (opcional)'}),
+            'codigo_qr': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Código QR'}),
             'categoria': forms.Select(attrs={'class': 'form-control'}),
             'marca': forms.Select(attrs={'class': 'form-control'}),
         }

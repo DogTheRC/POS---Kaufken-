@@ -1,0 +1,23 @@
+
+{% for producto in productos %}
+            <tr>
+                <td>{{ producto.updated_at }}</td>
+                <td>{{ producto.codigo_qr }}</td>
+                <td>{{ producto.autor }}</td>
+                <td>{{ producto.nombre }}</td>
+                <td>{{ producto.precio }}</td>
+                <td>{{ producto.stock }}</td>
+                <td>{{ producto.marca }}</td>
+                <td>{{ producto.categoria }}</td>
+                <td>
+                {% if producto.imagen %}
+                    <img src="{{ producto.imagen.url }}" alt="{{ producto.nombre }}" style="width: 50px; height: auto;">
+                {% else %}
+                    <span>No disponible</span>
+                {% endif %}
+                </td>
+                <td>
+                    <button class="btn btn-primary btn-sm" hx-get="{% url 'productos:editarProducto' id=producto.id %}" hx-target="#dialog">Editar</button>
+                </td> 
+            </tr>
+ {% endfor %}
