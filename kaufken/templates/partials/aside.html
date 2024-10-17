@@ -1,0 +1,24 @@
+<aside>
+    <h2>Navegación</h2>
+    <ul>
+        {% if user.is_staff %}
+        <li>
+            <a href="{% url 'productos:manejoInventario' %}"> Inventario </a>
+        </li>
+        {% endif %}
+        <li><a href="#">Ventas</a></li>
+        <li><a href="#">Configuración</a></li>
+        <li><a href="#">Ayuda</a></li>
+        {% if user.is_superuser %}
+            <li><a href="/admin/">Manejo de usuarios</a></li>
+        {% endif %}
+        <li><a href="{% url 'users:register' %}">Registrarse</a></li>
+        <li><a href="{% url 'users:login' %}">Login</a></li>
+        <li>
+            <form class="logout" action="{% url 'users:logout' %}" method="post">
+                {% csrf_token %}
+                <button class="logout-button" aria-label="Logout Button" title="Cerrar Sesión">Cerrar Sesión</button>
+            </form>
+        </li>
+    </ul>
+</aside>

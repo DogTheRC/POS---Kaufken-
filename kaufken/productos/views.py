@@ -5,6 +5,8 @@ from django.contrib.admin.views.decorators import staff_member_required
 from productos.models import Producto, Marca, Categoria
 import json
 from django.views.decorators.http import require_POST
+
+from django.contrib import messages
 # Create your views here.
 @staff_member_required
 def crearProductos(request):
@@ -26,11 +28,11 @@ def crearProductos(request):
     else:
         form = ProductoForm()
         
-    return render(request, 'form_productos.html', {"form": form})
+    return render(request, 'modals/form_productos.html', {"form": form})
 
 def listarProductos(request):
     productos = Producto.objects.all().order_by('updated_at')
-    return render(request, 'producto_lista.html', {"productos": productos})
+    return render(request, 'tabla_productos.html', {"productos": productos})
 
 def editarProducto(request, id):
     producto = get_object_or_404(Producto, id=id)  # Manejo de errores
@@ -52,13 +54,13 @@ def editarProducto(request, id):
         form = ProductoForm(instance=producto)
     
     # Renderiza la plantilla para la edición del producto
-    return render(request, 'form_productos.html', {'form': form, 'producto': producto})
+    return render(request, 'modals/form_productos.html', {'form': form, 'producto': producto})
 
 @staff_member_required
 def manejoInventario(request):
-    return render(request, 'base_modal.html')
+    return render(request, 'inventario.html')
 
-@ require_POST
+
 def eliminar_producto(request, id):
     producto = get_object_or_404(Producto, id=id)
     producto.delete()
@@ -70,3 +72,4 @@ def eliminar_producto(request, id):
                 "showMessage": f"{producto.nombre} Eliminado."
             })
         })
+        
