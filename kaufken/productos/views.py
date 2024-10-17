@@ -1,11 +1,19 @@
 from django.shortcuts import render, redirect, get_object_or_404
+from django.core.paginator import Paginator
+from django.db.models import Q
 from django.http import HttpResponse
 from productos.forms import ProductoForm, CategoriaForm, MarcaForm
 from django.contrib.admin.views.decorators import staff_member_required
 from productos.models import Producto, Marca, Categoria
 import json
 from django.views.decorators.http import require_POST
+
+
 # Create your views here.
+@staff_member_required
+def manejoInventario(request):
+    return render(request, 'base_modal.html')
+
 @staff_member_required
 def crearProductos(request):
     if request.method == 'POST':
@@ -30,7 +38,19 @@ def crearProductos(request):
 
 def listarProductos(request):
     productos = Producto.objects.all().order_by('updated_at')
-    return render(request, 'producto_lista.html', {"productos": productos})
+    paginator = Paginator(productos, 4)  # 3 elementos por página
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+    print(f"Total de productos: {productos.count()}, Total de páginas: {paginator.num_pages}")
+
+    return render(request, 'producto_lista.html', {'page_obj': page_obj})
+
+def buscarProducto(request):
+    keyword = request.POST.get("keyword")
+    productos = Producto.objects.filter(
+        Q(nombre__icontains=keyword) | Q(codigo_qr__icontains=keyword)
+        ).order_by('updated_at')
+    return render(request, 'producto_lista.html', {'productos': productos})
 
 def editarProducto(request, id):
     producto = get_object_or_404(Producto, id=id)  # Manejo de errores
@@ -54,9 +74,6 @@ def editarProducto(request, id):
     # Renderiza la plantilla para la edición del producto
     return render(request, 'form_productos.html', {'form': form, 'producto': producto})
 
-@staff_member_required
-def manejoInventario(request):
-    return render(request, 'base_modal.html')
 
 @ require_POST
 def eliminar_producto(request, id):

@@ -59,6 +59,22 @@
               
             </div>
             
+            <div class="d-flex justify-content-end mb-3">
+                <input type="search" 
+                       name="keyword" 
+                       placeholder="Buscar Productos" 
+                       class="form-control me-2" 
+                       hx-post="{% url 'productos:buscarProducto' %}" 
+                       hx-trigger="load, input changed delay:500ms" 
+                       hx-target="#tbody" 
+                       hx-indicator=".htmx-indicator"
+                       hx-headers='{"X-CSRFToken":"{{ csrf_token }}"}'
+                       hx-params="keyword">
+                <span class="htmx-indicator d-none"> 
+                    Searching...
+                </span>
+            </div>
+
             <button hx-get="{% url 'productos:crear' %}" hx-target="#dialog" class="btn btn-primary mb-3">
                 Agregar Producto
             </button>
@@ -67,6 +83,7 @@
                 <thead>
                     <tr>
                         <th>Fecha Actualización</th>
+                        <th>codigo_qr</th>
                         <th>Creador</th>
                         <th>Nombre</th>
                         <th>Precio</th>
@@ -76,7 +93,12 @@
                         <th>Imagen</th>
                     </tr>
                 </thead>
-                <tbody hx-trigger="load, productListChanged from:body" hx-get="{% url 'productos:listarProductos' %}" hx-target="this">
+                <tbody 
+                 hx-trigger="load, productListChanged from:body"
+                 hx-get="{% url 'productos:listarProductos' %}?page={{ page_obj.number }}"
+                 hx-target="this"
+                 id = "tbody"
+                 >
                     <tr>
                         <td colspan="8" class="text-center">
                             <div class="spinner-border" role="status">
@@ -101,7 +123,7 @@
                     <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Cerrar"></button>
                 </div>
             </div>
-        </div>
+
         {% endblock %}
     </main>
 
