@@ -1,15 +1,51 @@
-from django.shortcuts import render, redirect, get_object_or_404
+import json
+
+from django.contrib import messages
+from django.contrib.admin.views.decorators import staff_member_required
 from django.core.paginator import Paginator
 from django.db.models import Q
-from django.http import HttpResponse
-from pages.productos.forms import ProductoForm, CategoriaForm, MarcaForm
-from django.contrib.admin.views.decorators import staff_member_required
-from pages.productos.models import Producto, Marca, Categoria
-import json
+from django.http import HttpRequest, HttpResponse, JsonResponse
+from django.shortcuts import render, redirect, get_object_or_404
+from django.utils.decorators import method_decorator
+from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
-from django.contrib import messages
-from django.http.response import JsonResponse
-# Create your views here.
+from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
+
+from app.productos.forms import ProductoForm, CategoriaForm, MarcaForm
+from app.productos.models import Producto, Marca, Categoria
+
+# MIGRACION A CLASES
+class ProductoListView(ListView):
+    model = Producto
+    template_name = "producto/inventario.html"
+    @method_decorator(csrf_exempt)
+    def dispatch(self, request, *args, **kwargs):
+        return super().dispatch(request, *args, **kwargs)
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Listado de Productos'
+        return context
+
+    def post(self, request, *args, **kwargs):
+        data = {}
+        data = Producto.objects.get(pk=request.POST['id']).toJSON()
+        return JsonResponse(data)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 @staff_member_required
 def manejoInventario(request):
@@ -37,15 +73,6 @@ def crearProductos(request):
         form = ProductoForm()
         
     return render(request, 'modals/form_productos.html', {"form": form})
-
-def listarProductos(request):
-    productos = Producto.objects.all().order_by('updated_at')
-    paginator = Paginator(productos, 4)  # 3 elementos por página
-    page_number = request.GET.get('page')
-    page_obj = paginator.get_page(page_number)
-    print(44, productos)
-    print(f"Total de productos: {productos.count()}, Total de páginas: {paginator.num_pages}")
-    return render(request, 'tabla_productos.html', {'productos': page_obj})
 
 def listarProductos(request):
     productos = list(Producto.objects.values())
@@ -94,4 +121,5 @@ def eliminar_producto(request, codigo_qr):
                 "showMessage": f"{producto.nombre} Eliminado."
             })
         })
+        
         

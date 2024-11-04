@@ -39,9 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'pages.users',
-    'pages.productos',
-    'widget_tweaks',
+    'app.users',
+    'app.productos',
 ]
 
 MIDDLEWARE = [
@@ -61,8 +60,8 @@ TEMPLATES = [
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
             BASE_DIR / 'templates',
-            BASE_DIR / 'pages' / 'productos' / 'templates',
-            BASE_DIR / 'pages' / 'users' / 'templates',
+            BASE_DIR / 'app' / 'productos' / 'templates',
+            BASE_DIR / 'app' / 'users' / 'templates',
 
             
             ],

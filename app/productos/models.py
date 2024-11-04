@@ -34,6 +34,13 @@ class Producto(models.Model):
     
     def __str__(self):
         return self.nombre
+    
+    
+    def toJSON(self):
+        item = model_to_dict(self, exclude=['imagen'])
+        return item
+    
+    
     class Meta:
         db_table = 'producto'
         # constraints = [

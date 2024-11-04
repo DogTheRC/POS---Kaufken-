@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+    {% block extra_head %}
+        <!-- Cargar jQuery -->
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+        <!-- Bloque para estilos adicionales -->
+        <link href="https://cdn.datatables.net/v/dt/dt-2.1.8/af-2.7.0/b-3.1.2/b-html5-3.1.2/fc-5.0.4/fh-4.0.1/r-3.0.3/datatables.min.css" rel="stylesheet">
+ 
+        <script src="https://cdn.datatables.net/v/dt/dt-2.1.8/af-2.7.0/b-3.1.2/b-html5-3.1.2/fc-5.0.4/fh-4.0.1/r-3.0.3/datatables.min.js"></script>
+
+        <script src="{% static 'js/traduccion.js' %}"></script>
+
+    {% endblock %}
+
+
+{% block table %} 
+<table class="table table-striped" id="table">
+    <thead>
+        <tr>
+            {% block columns %}
+            {% endblock columns %}
+        </tr>
+    </thead>
+    <tbody>
+        {% block rows %}
+        {% endblock rows %}
+    </tbody>
+</table>
+
+    {% block javascript_list %}
+    <script type="application/javascript">
+        $(document).ready(function () {
+            $('#table').DataTable({
+                responsive: true,
+                language: languageSettings,
+            });
+    
+            $('#test').on('click', function () {
+                $.ajax({
+                    url: '{% url 'productos:listarProductos' %}',
+                    type: 'POST',
+                    data: { id: 19 },
+                    dataType: 'JSON'  // Asegúrate de que esto esté correcto
+                }).done(function (data) {
+                    console.log(data);
+                }).fail(function (data) {
+                    alert("Error al realizar la solicitud.");
+                }).always(function () {
+                    alert("La solicitud se ha completado.");
+                });
+            });
+        });
+    </script>
+    {% endblock javascript_list %}
+
+{% endblock table %}

@@ -1,0 +1,50 @@
+{% extends "base_table.html" %}
+
+{% block content %}
+
+<h1>{{ title }}</h1>
+
+<button id="test"> Test </button>
+
+{% endblock content%}
+
+    {% block columns %}
+        <th>Nombre</th>
+        <th>Código QR</th>
+        <th>Creador</th>
+        <th>Precio</th>
+        <th>Stock</th>
+        <th>Marca</th>
+        <th>Categoría</th>
+        <th>Imagen</th>
+        <th>Acciones</th>
+    {% endblock columns %}
+
+{% block rows %}
+    {% for producto in object_list %}
+        <tr>
+            <td>{{ producto.nombre }}</td>
+            <td>{{ producto.codigo_qr }}</td>
+            <td>{{ producto.autor }}</td>
+            <td>{{ producto.precio }}</td>
+            <td>{{ producto.stock }}</td>
+            <td>{{ producto.marca }}</td>
+            <td>{{ producto.categoria }}</td>
+            <td>
+                {% if producto.imagen %}
+                    <img src="{{ producto.imagen.url }}" alt="{{ producto.nombre }}" style="width: 50px; height: auto;">
+                {% else %}
+                    <span>No disponible</span>
+                {% endif %}
+            </td>
+            <td>
+                <a class="btn btn-primary btn-sm">Editar</a>
+                <a class="btn btn-danger btn-sm">Eliminar</a>
+            </td>
+        </tr>
+    {% empty %}
+        <tr>
+            <td colspan="9">No hay productos disponibles.</td>
+        </tr>
+    {% endfor %}
+{% endblock rows %}

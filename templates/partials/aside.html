@@ -3,7 +3,7 @@
     <ul>
         {% if user.is_staff %}
         <li>
-            <a href="{% url 'productos:manejoInventario' %}"> Inventario </a>
+            <a href="{% url 'productos:listarProductos' %}"> Inventario </a>
         </li>
         {% endif %}
         <li><a href="#">Ventas</a></li>
