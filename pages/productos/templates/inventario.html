@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}
+Manejo de Inventario
+{% endblock title %}
+
+{% block js_footer %}
+<script src="{% static 'js/dialog.js' %}"></script>
+<script src="{% static 'js/sweetAlert.js' %}"></script>
+{% endblock js_footer %}
+
+{% block content %}
+<div class="container">
+    <div class="px-5 my-5 text-center">
+        <h1>Manejo de Inventario</h1>
+    </div>
+
+    <div class="d-flex justify-content-end mb-3">
+        <input type="search" 
+               name="keyword" 
+               placeholder="Buscar Productos" 
+               class="form-control me-2"
+               minlength="3" 
+               hx-post="{% url 'productos:buscarProducto' %}" 
+               hx-trigger="load, input changed delay:500ms" 
+               hx-target="#tbody" 
+               hx-indicator=".htmx-indicator"
+               hx-headers='{"X-CSRFToken":"{{ csrf_token }}"}'
+               hx-params="keyword">
+        <span class="htmx-indicator d-none"> 
+            Searching...
+        </span>
+    </div>
+
+    <button hx-get="{% url 'productos:crear' %}" hx-target="#dialog" class="btn btn-primary mb-3">
+        Agregar Producto
+    </button>
+    
+
+
+{# Base del modal #}
+<div id="modal" class="modal fade" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
+    <div id="dialog" class="modal-dialog" hx-target="this">
+    </div>
+</div>
+{% endblock content %}

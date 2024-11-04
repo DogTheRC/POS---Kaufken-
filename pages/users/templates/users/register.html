@@ -1,0 +1,20 @@
+{% extends "users/base_form.html" %}
+
+{% load static %}
+
+{% block title %}
+    <title>Register</title>
+{% endblock %}
+
+{% block extra_head %}
+<link rel="stylesheet" href="{% static 'css/register.css' %}">
+{% endblock %}
+
+{% block content %}
+<form class="form-validation" action = "{% url 'users:register' %}" 
+method = "post">
+    {% csrf_token %}
+    {{ form }}
+    <button>Enviar</button>
+</form>
+{%  endblock %}
