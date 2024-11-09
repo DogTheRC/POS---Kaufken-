@@ -54,18 +54,7 @@
             });
     
             $('#test').on('click', function () {
-                $.ajax({
-                    url: '{% url 'productos:listarProductos' %}',
-                    type: 'POST',
-                    data: { id: 19 },
-                    dataType: 'JSON'  // Asegúrate de que esto esté correcto
-                }).done(function (data) {
-                    console.log(data);
-                }).fail(function (data) {
-                    alert("Error al realizar la solicitud.");
-                }).always(function () {
-                    alert("La solicitud se ha completado.");
-                });
+               
             });
         });
     </script>

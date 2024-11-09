@@ -12,7 +12,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 
-from app.productos.forms import ProductoForm, CategoriaForm, MarcaForm
+from app.productos.forms import ProductoForm, CategoriaForm, MarcaForm, FechaProductoForm, FechaProductoFormset
 from app.productos.models import Producto, Marca, Categoria
 
 # MIGRACION A CLASES
@@ -41,16 +41,47 @@ class ProductoCreateView(CreateView):
     form_class = ProductoForm
     success_url = reverse_lazy('productos:listarProductos')  # Redirige a la URL que prefieras tras guardar
 
-    def form_valid(self, form):
-        producto = form.save(commit=False)
-        producto.autor = self.request.user  # Asignamos el usuario actual como autor
-        producto.save()
-        return super().form_valid(form)  # Redirige al `success_url` después de guardar
-
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Crear Producto'
+
+        # Este es el formset para manejar las fechas relacionadas
+        if self.request.POST:
+            context['formset'] = FechaProductoFormset(self.request.POST)
+        else:
+            context['formset'] = FechaProductoFormset()
+
         return context
+    
+    def post(self, request, *args, **kwargs):
+        data = {}
+        try:
+            action = request.POST['action']
+            data = Producto.objects.get(pk=request.POST['id']).toJSON()
+        except Exception as error:
+            data['error'] = str(error)
+        return JsonResponse(data)
+
+    def form_valid(self, form):
+        context = self.get_context_data()
+        formset = context['formset']
+
+        if form.is_valid() and formset.is_valid():
+            # Guardamos el producto sin hacer commit para asignar el autor
+            producto = form.save(commit=False)
+            producto.autor = self.request.user  # Asignamos el usuario actual como autor
+            producto.save()  # Guardamos el producto
+
+            # Asignamos el producto al formset de fechas
+            formset.instance = producto
+            formset.save()  # Guardamos las fechas asociadas al producto
+
+            # Una vez que todo se guarda correctamente, redirigimos al éxito
+            return super().form_valid(form)
+        else:
+            # Si los formularios no son válidos, mostramos los errores
+            return self.render_to_response(self.get_context_data(form=form, formset=formset))
+
 
 
 
