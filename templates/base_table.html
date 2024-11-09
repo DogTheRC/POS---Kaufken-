@@ -1,23 +1,38 @@
 {% extends "base.html" %}
 
-{% load static %}
-
     {% block extra_head %}
+        <!-- Bloque para estilos adicionales -->
+        {% load static %}
+        <!-- CSS -->
+        <link rel="stylesheet" href="{% static 'css/table.css' %}">
+        <!-- Font Awesome -->
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" rel="stylesheet"></link> 
+
         <!-- Cargar jQuery -->
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-        <!-- Bloque para estilos adicionales -->
         <link href="https://cdn.datatables.net/v/dt/dt-2.1.8/af-2.7.0/b-3.1.2/b-html5-3.1.2/fc-5.0.4/fh-4.0.1/r-3.0.3/datatables.min.css" rel="stylesheet">
  
         <script src="https://cdn.datatables.net/v/dt/dt-2.1.8/af-2.7.0/b-3.1.2/b-html5-3.1.2/fc-5.0.4/fh-4.0.1/r-3.0.3/datatables.min.js"></script>
-
+     
         <script src="{% static 'js/traduccion.js' %}"></script>
 
     {% endblock %}
 
 
 {% block table %} 
-<table class="table table-striped" id="table">
+
+<h2 class="table_h2" >
+    {{ title }}
+</h2>
+
+<div>
+    <a class="button_create" href="{{ create_url }}">
+        <i class="fas fa-plus"></i> Crear {{ entity }}
+    </a>
+</div>
+
+<table class="table" id="table">
     <thead>
         <tr>
             {% block columns %}

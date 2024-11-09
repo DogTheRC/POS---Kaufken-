@@ -1,9 +1,9 @@
-
-*{
+* {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
+
 body {
     display: grid;
     grid-template-areas:
@@ -13,43 +13,131 @@ body {
     grid-template-columns: 200px 1fr;
     grid-template-rows: 60px 1fr 40px;
     height: 100vh;
-    margin: 0;
+    background-color: #fff; /* Fondo blanco para toda la página */
+    color: #333; /* Color de texto oscuro */
+    line-height: 1.6;
 }
 
 header {
     grid-area: header;
-    background-color: #4CAF50;
-    color: white;
+    background-color: #fff; /* Blanco para el encabezado */
+    color: #333; /* Texto oscuro en el encabezado */
     display: flex;
-    justify-content: space-between  ;
+    justify-content: space-between;
     align-items: center;
     padding: 0 20px;
+    font-size: 1.2rem;
+    border-bottom: 1px solid #ddd; /* Borde sutil en el header */
+}
+
+header h1 {
+    font-size: 1.6rem;
+    font-weight: bold;
 }
 
 aside {
     grid-area: sidebar;
-    background-color: #f4f4f4;
+    background-color: #fff; /* Fondo blanco para el aside */
+    color: #333;
     padding: 20px;
-    border-right: 1px solid #ddd;
+    border-right: 1px solid #ddd; /* Borde sutil a la derecha */
 }
 
+aside h2 {
+    font-size: 1.4rem;
+    margin-bottom: 20px;
+    color: #333;
+    font-weight: normal;
+}
 
-summary  {
-    list-style: none;
-    cursor: pointer;
-  }
+aside ul {
+    list-style-type: none;
+}
+
+aside li {
+    margin-bottom: 10px;
+}
+
+aside li a {
+    text-decoration: none;
+    color: #333; /* Color de texto oscuro para los enlaces */
+    font-size: 1rem;
+    display: block;
+    padding: 8px 0;
+    transition: color 0.3s ease, background-color 0.3s ease;
+}
+
+aside li a:hover {
+    color: #000; /* Cambia a negro al pasar el ratón */
+    background-color: #f5f5f5; /* Fondo gris claro al hacer hover */
+}
+
 details {
     cursor: pointer;
 }
+
+summary {
+    font-weight: bold;
+    color: #333;
+    padding: 5px;
+    transition: background-color 0.2s ease;
+}
+
+details[open] summary {
+    background-color: #f5f5f5; /* Fondo gris muy claro cuando se abre */
+}
+
+details ul {
+    list-style-type: none;
+    margin-top: 10px;
+}
+
+details li a {
+    font-size: 0.9rem;
+    color: #666;
+    padding: 5px 0;
+}
+
+details li a:hover {
+    color: #000; /* Cambia a negro al pasar el ratón */
+}
+
 main {
     grid-area: main;
     padding: 20px;
+    background-color: #fff; /* Fondo blanco para el contenido principal */
 }
 
 footer {
     grid-area: footer;
-    background-color: #4CAF50;
-    color: white;
+    background-color: #fff; /* Fondo blanco para el footer */
+    color: #333; /* Texto oscuro en el footer */
     text-align: center;
     padding: 10px;
+    font-size: 0.9rem;
+    border-top: 1px solid #ddd; /* Borde sutil en el footer */
+}
+
+footer p {
+    margin: 0;
+}
+
+.logout-button {
+    background-color: #fff;
+    color: #333;
+    padding: 8px 16px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.logout-button:hover {
+    background-color: #f5f5f5; /* Fondo gris suave al pasar el ratón */
+    border-color: #bbb; /* Cambio de borde al pasar el ratón */
+}
+
+form.logout {
+    display: inline-block;
 }

@@ -3,7 +3,13 @@
     <ul>
         {% if user.is_staff %}
         <li>
-            <a href="{% url 'productos:listarProductos' %}"> Inventario </a>
+           <details class="details_inventario">
+             <summary>Opciones de Inventario</summary>
+             <ul>
+                 <li><a href="{% url 'productos:listarProductos' %}">Inventario</a></li>
+                 <li><a href="{% url 'productos:crearProductos' %}">Crear Producto</a></li>
+             </ul>
+           </details>
         </li>
         {% endif %}
         <li><a href="#">Ventas</a></li>

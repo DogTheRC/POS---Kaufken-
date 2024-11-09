@@ -2,10 +2,6 @@
 
 {% block content %}
 
-<h1>{{ title }}</h1>
-
-<button id="test"> Test </button>
-
 {% endblock content%}
 
     {% block columns %}
@@ -38,8 +34,12 @@
                 {% endif %}
             </td>
             <td>
-                <a class="btn btn-primary btn-sm">Editar</a>
-                <a class="btn btn-danger btn-sm">Eliminar</a>
+                <a href="#" class="buttom_editar">
+                    <i class="fas fa-edit"></i> Editar
+                </a>
+                <a href="#" class="buttom_eliminar">
+                    <i class="fas fa-trash-alt"></i> Eliminar
+                </a>
             </td>
         </tr>
     {% empty %}

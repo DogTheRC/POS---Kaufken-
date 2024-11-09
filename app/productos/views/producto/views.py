@@ -6,6 +6,7 @@ from django.core.paginator import Paginator
 from django.db.models import Q
 from django.http import HttpRequest, HttpResponse, JsonResponse
 from django.shortcuts import render, redirect, get_object_or_404
+from django.urls import reverse_lazy
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
@@ -24,6 +25,8 @@ class ProductoListView(ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Listado de Productos'
+        context['entity'] = 'Producto'
+        context['create_url'] = reverse_lazy('productos:crearProductos')
         return context
 
     def post(self, request, *args, **kwargs):
@@ -31,9 +34,23 @@ class ProductoListView(ListView):
         data = Producto.objects.get(pk=request.POST['id']).toJSON()
         return JsonResponse(data)
 
+@method_decorator(staff_member_required, name='dispatch')
+class ProductoCreateView(CreateView):
+    model = Producto
+    template_name = "producto/crear.html"
+    form_class = ProductoForm
+    success_url = reverse_lazy('productos:listarProductos')  # Redirige a la URL que prefieras tras guardar
 
+    def form_valid(self, form):
+        producto = form.save(commit=False)
+        producto.autor = self.request.user  # Asignamos el usuario actual como autor
+        producto.save()
+        return super().form_valid(form)  # Redirige al `success_url` después de guardar
 
-
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Crear Producto'
+        return context
 
 
 

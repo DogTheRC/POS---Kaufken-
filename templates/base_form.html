@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block extra_head %}  
+<!-- Bloque para estilos adicionales -->
+{% load static %}
+    <link rel="stylesheet" href="{% static 'css/form.css' %}">
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" rel="stylesheet"></link> 
+{% endblock %}
+
+
+{% block content %}
+
+<h2 class="form_h2">
+    {{ title }}
+</h2>
+
+
+<form class="formulario" method="post" autocomplete="off" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form }}
+    <button type="submit" class="button_formulario">
+        <i class="fas fa-plus-circle"></i> {{ title }}
+    </button>
+    
+</form>
+
+{% if form.errors %}
+    <script>
+        var errors = '';
+        {% for field in form %}
+            {% for error in field.errors %}
+                errors += '<p class="error-message">' + '{{ error }}' + '</p>';
+            {% endfor %}
+        {% endfor %}
+        if (errors.trim()) {  // Solo mostrar el mensaje si hay errores
+            Swal.fire({
+                icon: 'error',
+                title: 'Ha ocurrido un error',
+                html: errors, // Usamos 'html' para permitir el formato HTML
+                confirmButtonText: 'Aceptar'
+            });
+        }
+    </script>
+{% endif %}
+
+{% endblock content %}
