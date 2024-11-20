@@ -1,3 +1,4 @@
+
 $(function() {
     // Función para obtener el token CSRF
     function getCSRFToken() {

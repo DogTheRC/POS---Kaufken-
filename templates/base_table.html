@@ -15,7 +15,7 @@
  
         <script src="https://cdn.datatables.net/v/dt/dt-2.1.8/af-2.7.0/b-3.1.2/b-html5-3.1.2/fc-5.0.4/fh-4.0.1/r-3.0.3/datatables.min.js"></script>
      
-        <script src="{% static 'js/traduccion.js' %}"></script>
+        <script src="{% static 'js/traduccion.js' %}" ></script>
 
         <meta name="csrf-token" content="{{ csrf_token }}">
 
@@ -52,18 +52,6 @@
 </table>
 
     {% block javascript_list %}
-    <script type="application/javascript">
-        $(document).ready(function () {
-            $('#table').DataTable({
-                responsive: true,
-                language: languageSettings,
-            });
-    
-            $('#test').on('click', function () {
-               
-            });
-        });
-    </script>
     {% endblock javascript_list %}
 
 {% endblock table %}
