@@ -1,8 +1,9 @@
 {% extends "base_table.html" %}
+{% load static %}
+{%  block head_list %}
+    <script src="{% static 'producto/js/listar.js' %}"></script>
+{% endblock %}
 
-{% block content %}
-
-{% endblock content%}
 
     {% block columns %}
         <th>Nombre</th>
@@ -17,34 +18,7 @@
     {% endblock columns %}
 
 {% block rows %}
-    {% for producto in object_list %}
-        <tr>
-            <td>{{ producto.nombre }}</td>
-            <td>{{ producto.codigo_qr }}</td>
-            <td>{{ producto.autor }}</td>
-            <td>{{ producto.precio }}</td>
-            <td>{{ producto.stock }}</td>
-            <td>{{ producto.marca }}</td>
-            <td>{{ producto.categoria }}</td>
-            <td>
-                {% if producto.imagen %}
-                    <img src="{{ producto.imagen.url }}" alt="{{ producto.nombre }}" style="width: 50px; height: auto;">
-                {% else %}
-                    <span>No disponible</span>
-                {% endif %}
-            </td>
-            <td>
-                <a href="#" class="buttom_editar">
-                    <i class="fas fa-edit"></i> Editar
-                </a>
-                <a href="#" class="buttom_eliminar">
-                    <i class="fas fa-trash-alt"></i> Eliminar
-                </a>
-            </td>
-        </tr>
-    {% empty %}
-        <tr>
-            <td colspan="9">No hay productos disponibles.</td>
-        </tr>
-    {% endfor %}
 {% endblock rows %}
+
+{% block javascript_list %}
+{% endblock javascript_list %}

@@ -4,90 +4,49 @@
 <!-- Bloque para estilos adicionales -->
 {% load static %}
     <link rel="stylesheet" href="{% static 'css/form.css' %}">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" rel="stylesheet"></link> 
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" rel="stylesheet"> 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
-    {% endblock %}
+    <script src="{% static 'js/function.js' %}" defer></script>
+{% endblock %}
 
 {% block content %}
 <h2 class="form_h2">{{ title }}</h2>
 
 <form class="formulario" method="post" autocomplete="off" enctype="multipart/form-data">
     {% csrf_token %}
-    {{ form.as_p }}  <!-- Aquí se renderiza el formulario principal -->
-
-    {% if formset %}
-        <h3>Fechas del Producto</h3>
-        {{ formset.management_form }}  <!-- Esto es necesario para el manejo de formsets -->
-        {% for form in formset %}
-            <div>
-                {{ form.as_p }}  <!-- Renderiza cada formulario del formset -->
-            </div>
-        {% endfor %}
-    {% endif %}
-
+    <input type="hidden" name="action" value="{{ action }}">
+    {{ form.as_p }}  <!-- Aquí se renderiza el formulario principal -->  
     <button type="submit" class="button_formulario">
         <i class="fas fa-plus-circle"></i> {{ title }}
     </button>
 </form>
 
-{% if form.errors or formset.errors %}
-    <script>
-        var errors = '';
-
-        // Errores del formulario principal (ProductoForm)
-        {% for field in form %}
-            {% for error in field.errors %}
-                errors += '<p class="error-message">' + '{{ error }}' + '</p>';
-            {% endfor %}
-        {% endfor %}
-
-        {% if formset %}
-            {% for form in formset %}
-                {% for field in form %}
-                    {% for error in field.errors %}
-                        errors += '<p class="error-message">' + '{{ error }}' + '</p>';
-                    {% endfor %}
-                {% endfor %}
-
-                <!-- Errores globales del formset -->
-                {% for error in form.non_field_errors %}
-                    errors += '<p class="error-message">' + '{{ error }}' + '</p>';
-                {% endfor %}
-            {% endfor %}
-        {% endif %}
-
-        // Si hay errores, mostrar SweetAlert
-        if (errors.trim()) {
-            Swal.fire({
-                icon: 'error',
-                title: 'Ha ocurrido un error',
-                html: errors, // Usamos 'html' para permitir el formato HTML
-                confirmButtonText: 'Aceptar'
-            });
-        }
-    </script>
-{% endif %}
-
 <script>
-    $('form').on('submit', function(e){
+    $('form').on('submit', function(e) {
         e.preventDefault();
-        var parameters = $(this).serializeArray();
-        console.log(parameters);
-     $.ajax({
-            url: '{% url 'productos:crearProductos' %}',
+        // Crear un objeto FormData para enviar los datos del formulario, incluyendo archivos
+        var formData = new FormData(this);
+        $.ajax({
+            url: window.location.pathname,
             type: 'POST',
-            data: { id: 19 },
-            dataType: 'JSON'  // Asegúrate de que esto esté correcto
-        }).done(function (data) {
-            console.log(data);
-        }).fail(function (data) {
-            alert("Error al realizar la solicitud.");
-        }).always(function () {
-            alert("La solicitud se ha completado.");
+            data: formData,
+            processData: false,  // Evitar que jQuery procese los datos
+            contentType: false,  // Evitar que jQuery establezca el content-type
+        }).done(function(data) {
+            // Si no hay error, redirigir a la lista de productos
+            if (!data.hasOwnProperty('error')) {
+                window.location.href = '{{ list_url }}';  // Redirige a la URL de la lista de productos
+                return false;
+            }
+            // Si hay un error, mostrarlo
+            alertError(data.error); // Asegúrate de que esta función esté definida
+        }).fail(function(jqXHR, textStatus, errorThrown) {
+            // En caso de fallo en la solicitud AJAX
+            alert(textStatus + ':' + errorThrown);
+        }).always(function() {
+            // Código que se ejecuta siempre (puedes usarlo para limpiar formularios o mostrar mensajes)
         });
-
     });
 </script>
 
-{% endblock content %}
+{% endblock %}

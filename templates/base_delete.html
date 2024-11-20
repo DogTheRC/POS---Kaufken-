@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+
+{% block extra_head %}
+<!-- Bloque para estilos adicionales -->
+{% load static %}
+    <link rel="stylesheet" href="{% static 'css/form.css' %}">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" rel="stylesheet"></link> 
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    
+    <script src="{% static 'js/function.js' %}" defer></script>
+
+    {% endblock %}
+
+{% block content %}
+<h2 class="form_h2">{{ title }}</h2>
+
+<form class="formulario" method="post" autocomplete="off">
+    {% csrf_token %}
+    <input type="hidden" name="action" value="{{ action }}">  <!-- Acción de eliminación -->
+    
+    <p>¿Estás seguro de que deseas eliminar el producto <strong>{{ object.nombre }}</strong>?</p>
+    
+    <button type="submit" class="button_formulario">
+        <i class="fas fa-trash-alt"></i> Eliminar
+    </button>
+    <a href="{{ list_url }}" class="button_formulario_cancel">
+        <i class="fas fa-times"></i> Cancelar
+    </a>
+</form>
+<script>
+    $('form').on('submit', function(e){
+        e.preventDefault();
+        var parameters = $(this).serializeArray();
+     $.ajax({
+            url: window.location.pathname, 
+            type: 'POST',
+            data: parameters,
+            dataType: 'JSON'  // Asegúrate de que esto esté correcto
+        }).done(function (data) {
+            if (!data.hasOwnProperty('error')){
+                console.log(data)
+                window.location.href = '{{ list_url }}';
+                return false;
+            }
+            alertError(data.error);
+        }).fail(function (jqXHR, textStatus, errorThrown) {
+            alert(textStatus + ':' + errorThrown);
+        }).always(function (data) {
+           
+        });
+
+    });
+</script>
+{% endblock content %}
