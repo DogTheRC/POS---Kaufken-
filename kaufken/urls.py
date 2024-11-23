@@ -27,5 +27,6 @@ urlpatterns = [
     path('layout/', views.view_navbar),
     path('users/', include('app.users.urls')),
     path('productos/', include('app.productos.urls')),
+    path('notificacion/', include('app.notificaciones.urls')),
 ]
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

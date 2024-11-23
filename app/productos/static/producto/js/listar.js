@@ -32,13 +32,13 @@ $(function() {
             }
         },
         columns: [
+            { data: "codigo_barra" },
+            { data: "autor_nombre" },
             { data: "nombre" },
-            { data: "codigo_qr" },
-            { data: "autor" },
             { data: "precio" },
             { data: "stock" },
-            { data: "marca" },
-            { data: "categoria" },
+            { data: "marca_nombre" },
+            { data: "categoria_nombre" },
             { 
                 data: "imagen", 
                 render: function(data) {
@@ -50,8 +50,8 @@ $(function() {
                 data: null, 
                 render: function(data, type, row) {
                     // Construir las URLs de edición y eliminación
-                    var editUrl = baseUrl + 'editar/' + row.codigo_qr + '/';
-                    var deleteUrl = baseUrl + 'delete/' + row.codigo_qr + '/';
+                    var editUrl = baseUrl + 'editar/' + row.codigo_barra + '/';
+                    var deleteUrl = baseUrl + 'delete/' + row.codigo_barra + '/';
 
                     var buttons = '<a href="' + editUrl + '" class="buttom_editar"><i class="fas fa-edit"></i> Editar</a> ';
                     buttons += '<a href="' + deleteUrl + '" class="buttom_eliminar"><i class="fas fa-trash-alt"></i> Eliminar</a>';

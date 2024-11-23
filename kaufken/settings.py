@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'app.users',
     'app.productos',
+    'app.notificaciones',
 ]
 
 MIDDLEWARE = [
@@ -62,8 +63,8 @@ TEMPLATES = [
             BASE_DIR / 'templates',
             BASE_DIR / 'app' / 'productos' / 'templates',
             BASE_DIR / 'app' / 'users' / 'templates',
+            BASE_DIR / 'app' / 'notificaciones' / 'templates',
 
-            
             ],
         'APP_DIRS': True,
         'OPTIONS': {

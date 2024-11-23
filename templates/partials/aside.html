@@ -13,7 +13,7 @@
         </li>
         {% endif %}
         <li><a href="#">Ventas</a></li>
-        <li><a href="#">Configuración</a></li>
+        <li><a href="{% url 'notificacion:listarNotificaciones' %}">Notificaciones</a></li>
         <li><a href="#">Ayuda</a></li>
         {% if user.is_superuser %}
             <li><a href="/admin/">Manejo de usuarios</a></li>

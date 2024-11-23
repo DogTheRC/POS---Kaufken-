@@ -7,9 +7,9 @@ from django.utils.decorators import method_decorator
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 
 from app.productos.forms import ProductoForm
-from app.productos.models import Producto, Marca, Categoria
+from app.productos.models import Producto
 
-
+@method_decorator(staff_member_required, name='dispatch')
 class ProductoListView(ListView):
     model = Producto
     template_name = "producto/inventario.html"
@@ -78,8 +78,8 @@ class ProductoUpdateView(UpdateView):
     success_url = reverse_lazy('productos:listarProductos')  
 
     def get_object(self, queryset=None):
-        codigo_qr = self.kwargs.get('codigo_qr')  
-        return get_object_or_404(Producto, codigo_qr=codigo_qr) 
+        codigo_barra = self.kwargs.get('codigo_barra')  
+        return get_object_or_404(Producto, codigo_barra=codigo_barra) 
 
     def dispatch(self, request, *args, **kwargs):
         self.object = self.get_object()
@@ -94,6 +94,7 @@ class ProductoUpdateView(UpdateView):
                 form = ProductoForm(request.POST, request.FILES, instance=self.object)
                 if form.is_valid():
                     producto = form.save(commit=False)
+                    print(producto)
                     producto.autor = self.request.user  # Asigna el autor al producto
                     producto.save()  # Guarda el producto actualizado
                     data['success'] = 'Producto actualizado correctamente'
@@ -103,7 +104,6 @@ class ProductoUpdateView(UpdateView):
                 data['error'] = 'Acción no válida'
         except Exception as error:
             data['error'] = str(error)
-
         return JsonResponse(data) 
 
     def get_context_data(self, **kwargs):
@@ -113,15 +113,16 @@ class ProductoUpdateView(UpdateView):
         context['list_url'] = self.success_url
         context['entity'] = 'Producto'
         return context
-  
+
+@method_decorator(staff_member_required, name='dispatch') 
 class ProductoDeleteView(DeleteView):
     model = Producto
     template_name = "producto/delete.html"
     success_url = reverse_lazy('productos:listarProductos')  
     
     def get_object(self, queryset=None):
-        codigo_qr = self.kwargs.get('codigo_qr')  
-        return get_object_or_404(Producto, codigo_qr=codigo_qr) 
+        codigo_barra = self.kwargs.get('codigo_barra')  
+        return get_object_or_404(Producto, codigo_barra=codigo_barra) 
     
     def dispatch(self, request, *args, **kwargs):
         self.object = self.get_object()

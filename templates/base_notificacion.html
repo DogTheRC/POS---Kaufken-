@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block extra_head %}
+    {% load static %}
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/notificaciones.css' %}">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="{% static 'js/notificaciones.js' %}" defer></script>
+    <meta name="csrf-token" content="{{ csrf_token }}">
+{% endblock extra_head %}
+
+{% block content %}
+<h1>{{ title }} - {{ entity }}</h1>
+
+<!-- Contenedor para las notificaciones -->
+
+{% if has_notifications %}
+    <!-- Vista cuando hay notificaciones no leídas -->
+    <h3 class="notificacion-title">Hay notificaciones pendientes</h3>
+    <div id="notificaciones-list">
+        <!-- Aquí se cargarán las notificaciones no leídas -->
+    </div>
+{% else %}
+    <!-- Vista cuando no hay notificaciones -->
+
+    <h3class="notificacion-title">No hay notificaciones nuevas.</h3>
+    <div id="no-notificaciones">
+        <!-- Aquí puedes mostrar un mensaje si no hay notificaciones -->
+      </div>
+{% endif %}
+
+{% endblock content %}
