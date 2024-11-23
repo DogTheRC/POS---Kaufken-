@@ -4,21 +4,47 @@ from django.core.validators import MinValueValidator, MaxValueValidator
 from django.contrib.auth.models import User
 from django.forms.models import model_to_dict
 
-
-
 # Create your models here.
 
 class Categoria(models.Model):
-    nombre = models.CharField(max_length=150)
+    nombre = models.CharField(max_length=150, unique=True)
+    created_at = models.DateTimeField(auto_now_add=True)  # Fecha de creación
+    updated_at = models.DateTimeField(auto_now=True)  # Fecha de la última modificación
+    autor = models.ForeignKey(User, on_delete=models.CASCADE, default=None)
     def __str__(self):
         return self.nombre
+    
+    def toJSON(self):
+        item = model_to_dict(self)
+        item['autor_nombre'] = self.autor.username if self.autor else None
+        item['created_at'] = self.created_at.strftime('%d-%m-%Y %H:%M')
+        item['update_at'] = self.updated_at.strftime('%d-%m-%Y %H:%M')
+        return item
+    
+    def clean(self):
+        validar_nombre_general(self.nombre, tipo="categoría")
+        super().clean()
+    
     class Meta:
         db_table = 'categoria'
 
+    
 class Marca(models.Model):
-    nombre = models.CharField(max_length=150) 
+    nombre = models.CharField(max_length=150,unique=True)
+    created_at = models.DateTimeField(auto_now_add=True)  
+    updated_at = models.DateTimeField(auto_now=True)  
+    autor = models.ForeignKey(User, on_delete=models.CASCADE, default=None)    
     def __str__(self):
         return self.nombre
+    def toJSON(self):
+        item = model_to_dict(self)
+        item['autor_nombre'] = self.autor.username if self.autor else None
+        item['created_at'] = self.created_at.strftime('%d-%m-%Y %H:%M')
+        item['update_at'] = self.updated_at.strftime('%d-%m-%Y %H:%M')
+        return item
+    def clean(self):
+        validar_nombre_general(self.nombre, tipo="marca")
+        super().clean()
     class Meta:
         db_table = 'marca'
 
@@ -30,7 +56,7 @@ class Producto(models.Model):
         unique=True,
         validators=[validar_codigo_barra]  # Agregar el validador
     )
-    nombre = models.CharField(max_length=150)
+    nombre = models.CharField(max_length=150, unique=True)
     precio = models.DecimalField(max_digits=10, decimal_places=0, validators=[MinValueValidator(100)])
     descripcion = models.CharField(max_length=300, blank=True)
     imagen = models.ImageField(default="placeholder.png", upload_to='productosImage/', blank=True)
@@ -67,7 +93,7 @@ class Producto(models.Model):
     def clean(self):
         
         # Validación del nombre
-        validar_nombre_producto(self.nombre)
+        validar_nombre_general(self.nombre, tipo="producto")
 
         # Validación de las fechas de elaboración y vencimiento
         validar_fechas(self.fecha_elaboracion, self.fecha_vencimiento)

@@ -1,0 +1,21 @@
+{% extends "base_table.html" %}
+{% load static %}
+{%  block head_list %}
+    <script src="{% static 'categoria/js/listar.js' %}"></script>
+{% endblock %}
+
+
+    {% block columns %}
+        <th>ID</th>
+        <th>Fecha de Creacion</th>
+        <th>Fecha de Actualizacion</th>
+        <th>Creador</th>
+        <th>Nombre</th>
+        <th>Acciones</th>
+    {% endblock columns %}
+
+{% block rows %}
+{% endblock rows %}
+
+{% block javascript_list %}
+{% endblock javascript_list %}

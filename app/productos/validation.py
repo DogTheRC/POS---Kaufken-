@@ -3,19 +3,18 @@ from django.core.exceptions import ValidationError
 from datetime import date
 
 # Método para generar el nombre estandarizado
-def validar_nombre_producto(nombre):
+def validar_nombre_general(nombre, tipo=""):
     # Validar que el nombre no esté vacío o solo contenga espacios
     if not nombre or nombre.strip() == "":
-        raise ValidationError('El nombre del producto no puede estar vacío.')
+        raise ValidationError(f'El nombre de {tipo} no puede estar vacío.')
     
     # Validar que el nombre siga el formato: primera palabra solo letras, luego puede haber números
     if not re.match(r'^[A-Za-z]+(\s[A-Za-z0-9]+)*$', nombre.strip()):
-        raise ValidationError('El nombre del producto debe comenzar con letras y luego permite letras y números.')
-
+        raise ValidationError(f'El nombre de {tipo} debe comenzar con letras y luego permite letras y números.')
+    
     # Validar que el nombre tenga una longitud mínima (por ejemplo, 3 caracteres)
     if len(nombre.strip()) < 3:
-        raise ValidationError('El nombre del producto debe tener al menos 3 caracteres.')
-
+        raise ValidationError(f'El nombre de {tipo} debe tener al menos 3 caracteres.')
 
 def generar_nombre_producto(categoria, marca, nombre, descripcion, codigo_barra):
     nombre_producto = f"{categoria.nombre} - {marca.nombre} - {nombre}"
