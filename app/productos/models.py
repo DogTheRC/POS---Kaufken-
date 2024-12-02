@@ -56,17 +56,18 @@ class Producto(models.Model):
         unique=True,
         validators=[validar_codigo_barra]  # Agregar el validador
     )
+    is_active = models.BooleanField(default=True)
     nombre = models.CharField(max_length=150, unique=True)
     precio = models.DecimalField(max_digits=10, decimal_places=0, validators=[MinValueValidator(100)])
     descripcion = models.CharField(max_length=300, blank=True)
     imagen = models.ImageField(default="placeholder.png", upload_to='productosImage/', blank=True)
     stock = models.IntegerField(validators=[MinValueValidator(0)])
-    stock_critico = models.IntegerField(default=1, validators=[MinValueValidator(1),MaxValueValidator(1000)])
-    stock_minimo = models.IntegerField(default=3, validators=[MinValueValidator(3),MaxValueValidator(1000)])
-    stock_maximo = models.IntegerField(default=10, validators=[MinValueValidator(10),MaxValueValidator(1000)])
+    stock_critico = models.PositiveIntegerField(default=1, validators=[MinValueValidator(1),MaxValueValidator(100)])
+    stock_minimo = models.PositiveIntegerField(default=2, validators=[MinValueValidator(2),MaxValueValidator(100)])
+    stock_maximo = models.PositiveIntegerField(default=3, validators=[MinValueValidator(3),MaxValueValidator(100)])
     categoria = models.ForeignKey(Categoria, on_delete=models.SET_NULL, null=True)
     marca = models.ForeignKey(Marca, on_delete=models.SET_NULL, null=True)
-    autor = models.ForeignKey(User, on_delete=models.CASCADE, default=None)
+    autor = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
     fecha_elaboracion = models.DateField()
     fecha_vencimiento = models.DateField()
     created_at = models.DateTimeField(auto_now_add=True)  # Fecha de creación
@@ -82,12 +83,17 @@ class Producto(models.Model):
         
         nombre_producto = generar_nombre_producto(self.categoria, self.marca, self.nombre, self.descripcion, self.codigo_barra)
         item['nombre'] = nombre_producto
-        item['categoria_nombre'] = self.categoria.nombre if self.categoria else None 
-        item['marca_nombre'] = self.marca.nombre if self.marca else None
-        item['autor_nombre'] = self.autor.username if self.autor else None
+
+        item['categoria_nombre'] = self.categoria.nombre if self.categoria else "Desconocida"
+        item['marca_nombre'] = self.marca.nombre if self.marca else "Desconocida"
+        
+        item['autor_nombre'] = self.autor.username if self.autor else "Desconocido"
+        
         if self.imagen:
             item['imagen'] = self.imagen.url
+
         return item
+
     
     
     def clean(self):

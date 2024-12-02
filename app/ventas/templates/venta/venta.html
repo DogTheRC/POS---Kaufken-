@@ -1,0 +1,81 @@
+{% extends "base_venta.html" %}
+{% load static %}
+{%  block head_list %}
+    <script src="{% static 'ventas/js/select2.js' %}"></script>
+    <link rel="stylesheet" href="{% static 'ventas/css/ventas.css' %}">
+
+{% endblock %}
+
+{% block form %}
+<form class="venta_master" id="formRegistrarVenta" method="post" autocomplete="off" enctype="multipart/form-data">
+    {% csrf_token %}
+    <input type="hidden" name="action" value="{{ action }}">
+    <div class="detalle_venta">
+        <div class="busqueda">
+            {{ detalle_form.search }}
+            <button class="limpiar_busqueda" type="button">
+                <i class="fas fa-x"></i>
+            </button>
+        </div>
+        <button class="eliminar_todo" type="button">
+            <i class="fas fa-trash"> Eliminar todo los items</i>
+        </button>
+        <table class="table" id="table">
+            <thead>
+                <tr>
+                  <th>Acción</th>
+                  <th>Producto</th>
+                  <th>Categoría</th>
+                  <th>Marca</th>
+                  <th>Precio Unitario</th>
+                  <th>Stock</th>
+                  <th>Cantidad</th>
+                  <th>SubTotal</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </div>
+    <div class="venta">
+        <div class="detalle_pagos">
+            {{ pago_form.metodo_pago.label_tag }}
+            {{ pago_form.metodo_pago }}
+            
+            <div id="primer_pago" class="d-none">
+                <h4>Primer Pago</h4>                
+                {{ pago_form.monto.label_tag }}
+                {{ pago_form.monto }}
+                <span id="saldo-restante">Efectivo Restante: $0</span>
+                <div id="vuelto" class="d-none">
+                    <h4>Vuelto</h4>
+                    <input id="vuelto-efectivo" min="0" type="number" readonly>
+                </div>
+            </div>
+
+            <div id="segundo-pago" class="d-none">
+                <h4>Segundo Pago</h4>
+                <label for="metodo_pago_segundo">Método de Pago</label>
+                <select name="metodo_pago_segundo" id="metodo_pago_segundo" class="form-control">
+                    <option value="">Seleccione un método</option>
+                    <option value="TD">Tarjeta Débito</option>
+                </select>
+                
+                <label for="monto_segundo">Monto del Segundo Pago</label>
+                <input type="number" name="monto_segundo" id="monto_segundo" class="form-control" placeholder="Monto del Segundo Pago" min="0" readonly>
+                
+                <button type="button" id="eliminar-segundo-pago" class="btn btn-danger mt-2">
+                    Eliminar Segundo Pago
+                </button>
+            </div>
+        </div>
+        {{ venta_form.as_p }}
+
+        <button type="submit" id = "button_formulario" class="button_formulario">
+            <i class="fas fa-plus-circle"></i> {{ title }}
+        </button>
+    </div>
+</form>
+<link rel="stylesheet" href="{% static 'ventas/css/select2.css' %}">
+
+{% endblock %}

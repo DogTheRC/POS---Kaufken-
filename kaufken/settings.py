@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'app.users',
     'app.productos',
     'app.notificaciones',
+    'app.ventas',
 ]
 
 MIDDLEWARE = [
@@ -64,6 +65,7 @@ TEMPLATES = [
             BASE_DIR / 'app' / 'productos' / 'templates',
             BASE_DIR / 'app' / 'users' / 'templates',
             BASE_DIR / 'app' / 'notificaciones' / 'templates',
+            BASE_DIR / 'app' / 'ventas' / 'templates',
 
             ],
         'APP_DIRS': True,
@@ -120,7 +122,7 @@ TIME_ZONE = 'America/Santiago'
 
 USE_I18N = True
 
-USE_TZ = True
+USE_TZ = False
 
 USE_L10N = True
 
@@ -131,7 +133,7 @@ USE_L10N = True
 
 STATIC_URL = 'static/'
 STATICFILES_DIRS = [
-        os.path.join(BASE_DIR, 'static')
+        os.path.join(BASE_DIR, 'static'),
 ]
 
 MEDIA_URL = 'media/' 

@@ -29,11 +29,13 @@ class ProductoListView(ListView):
             if action == 'search':
                 data = []
                 for i in Producto.objects.all():
-                    data.append(i.toJSON())
+                    product_data = i.toJSON()
+                    product_data['is_active'] = "✔️" if i.is_active else "❌"  # Usar el símbolo correspondiente
+                    data.append(product_data)
             else:
                 data['error'] = 'No a ingresado ninguna accion'
         except Exception as error:
-            data['error'] = str(error)
+             data = {'error': str(error)}
         return JsonResponse(data, safe=False)
 
 @method_decorator(staff_member_required, name='dispatch')
@@ -41,7 +43,6 @@ class ProductoCreateView(CreateView):
     model = Producto
     template_name = "producto/crear.html"
     form_class = ProductoForm
-    success_url = reverse_lazy('productos:listarProductos')  
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Crear Producto'

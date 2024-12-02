@@ -1,8 +1,12 @@
+/* Reset and Base Styles */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
+
+/* Import a modern font */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap');
 
 body {
     display: grid;
@@ -10,45 +14,136 @@ body {
         "header header"
         "main main"
         "footer footer";
-    grid-template-rows: 60px 1fr 40px;
+    grid-template-rows: 80px 1fr 60px;
     height: 100vh;
+    font-family: 'Inter', sans-serif;
+    background-color: #f4f6f9;
+    color: #333;
 }
 
+/* Header Styling */
 header {
     grid-area: header;
-    background-color: #af534c;
+    background-color: #2c3e50;
     color: white;
     display: flex;
-    justify-content: space-between;
-    align-items: center; /* Alineación centrada */
+    justify-content: center;
+    align-items: center;
     padding: 0 20px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 
-footer {
-    grid-area: footer;
-    background-color: #4CAF50;
+header a {
     color: white;
-    text-align: center;
-    padding: 10px;
+    text-decoration: none;
+    font-size: 24px;
+    font-weight: 600;
+    letter-spacing: 1px;
 }
 
+/* Main Content and Form Styling */
 main {
     grid-area: main;
     display: flex;
     justify-content: center;
     align-items: center;
-}
-.form-validation {
-    color: red;
-    font-size: 12px;
-    text-align: center; /* Centrar mensaje de validación */
-    display: flex;
-   flex-direction: column;
-   gap: 10px;
+    padding: 20px;
 }
 
-div {
+.form-validation {
+    background-color: white;
+    border-radius: 12px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    padding: 40px;
+    width: 100%;
+    max-width: 400px;
     display: flex;
-    gap: 10px;
     flex-direction: column;
+    gap: 20px;
+    transition: all 0.3s ease;
+}
+
+.form-validation:hover {
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
+    transform: translateY(-5px);
+}
+
+.form-validation div {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.form-validation label {
+    font-weight: 600;
+    color: #2c3e50;
+    margin-bottom: 5px;
+}
+
+.form-validation input {
+    width: 100%;
+    padding: 12px;
+    border: 2px solid #e0e0e0;
+    border-radius: 8px;
+    font-size: 16px;
+    transition: all 0.3s ease;
+}
+
+.form-validation input:focus {
+    border-color: #3498db;
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+}
+
+.form-validation button {
+    background-color: #3498db;
+    color: white;
+    border: none;
+    padding: 14px;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.form-validation button:hover {
+    background-color: #2980b9;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(52, 152, 219, 0.3);
+}
+
+/* Footer Styling */
+footer {
+    grid-area: footer;
+    background-color: #2c3e50;
+    color: white;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 15px;
+    font-size: 14px;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 480px) {
+    .form-validation {
+        padding: 20px;
+        width: 95%;
+    }
+
+    header a {
+        font-size: 20px;
+    }
+}
+
+/* Validation Error Styling */
+.form-validation .error {
+    color: #e74c3c;
+    font-size: 14px;
+    text-align: left;
+    margin-top: -5px;
 }

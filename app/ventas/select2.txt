@@ -1,0 +1,92 @@
+<script>
+    var select_products = $('select[name="producto"]');
+ $(function () {
+    $('.select2').select2({
+        language: "es"
+    });
+    $('select[name="producto"]').on('change', function () {
+        var id = $(this).val();
+        var options = '<option value = ""> -----------------------</option>';
+        var value = select_products.select2('data');
+        console.log(value)
+        if (id === ''){
+            select_products.html(options);
+            return false;
+        };
+        $.ajax({
+            url: window.location.pathname,
+            type: 'POST',
+            data: {
+                'action': 'search_product',
+                'id': id
+            },
+            datatype: 'json',
+        }).done(function(data) {
+            // Si no hay error, redirigir a la lista de productos
+            if (!data.hasOwnProperty('error')) {
+                select_products.html("").select2({
+                    theme: "boostrap4",
+                    language: "es",
+                    data: data,
+                })
+            }
+            // Si hay un error, mostrarlo
+            alertError(data.error); // Asegúrate de que esta función esté definida
+        }).fail(function(jqXHR, textStatus, errorThrown) {
+            // En caso de fallo en la solicitud AJAX
+            alert(textStatus + ':' + errorThrown);
+        }).always(function() {
+            // Código que se ejecuta siempre (puedes usarlo para limpiar formularios o mostrar mensajes)
+        });
+    })
+    $('.select2[name="search"]').select2({
+        language: "es",
+        allowClear: true,
+        ajax: {
+            delay: 250,
+            url: window.location.pathname, 
+            type: 'POST',
+            data: function (params) {
+                return {
+                    term: params.term,
+                    action: 'autocomplete'  
+                };
+            },
+            processResults: function (data) {
+                return {
+                    results: data.results.map(function (item) {
+                        return {
+                            id: item.id,
+                            text: item.text,  // El nombre del producto
+                            imagen: item.imagen,
+                            categoria: item.categoria,
+                            marca: item.marca,
+                            codigo_barra: item.codigo_barra,
+                        };
+                    })
+                };
+            },
+            placeholder: "Ingrese una descripción",
+            minimumInputLength: 1
+        },
+        templateResult: function (data) {
+            var $container = $('<div class="product-result">');
+            var $image = $('<img class="img-fluid" width="50" height="50" />').attr('src', data.imagen);
+            var $text = $('<div class="product-info">')
+                .append('<strong>' + data.text + '</strong><br>')
+                .append('<span>' + (data.categoria ? data.categoria : '') + ' | ' + (data.marca ? data.marca : '') + '</span>');
+            
+            if (data.codigo_barra) {
+                $text.append('<br><span>' + data.codigo_barra + '</span>');  // Mostrar código de barra
+            }
+     
+            $container.append($image).append($text);
+            return $container;
+        },
+        templateSelection: function (data) {
+            return data.text;  // Solo mostramos el nombre del producto cuando se selecciona
+        }
+    });
+      
+ })
+</script>

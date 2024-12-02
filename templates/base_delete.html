@@ -18,7 +18,7 @@
     {% csrf_token %}
     <input type="hidden" name="action" value="{{ action }}">  <!-- Acción de eliminación -->
     
-    <p>¿Estás seguro de que deseas eliminar el producto <strong>{{ object.nombre }}</strong>?</p>
+    <p>¿Estás seguro de que deseas eliminar {{ entity }} <strong>{{ object.nombre }}</strong>?</p>
     
     <button type="submit" class="button_formulario">
         <i class="fas fa-trash-alt"></i> Eliminar

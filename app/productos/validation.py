@@ -17,7 +17,12 @@ def validar_nombre_general(nombre, tipo=""):
         raise ValidationError(f'El nombre de {tipo} debe tener al menos 3 caracteres.')
 
 def generar_nombre_producto(categoria, marca, nombre, descripcion, codigo_barra):
-    nombre_producto = f"{categoria.nombre} - {marca.nombre} - {nombre}"
+    # Verificar si categoria y marca existen y asignar un valor por defecto si no
+    categoria_nombre = categoria.nombre if categoria else "Desconocida"
+    marca_nombre = marca.nombre if marca else "Desconocida"
+    
+    # Crear el nombre del producto
+    nombre_producto = f"{categoria_nombre} - {marca_nombre} - {nombre}"
 
     # Si tiene descripción, la añadimos
     if descripcion:
@@ -31,6 +36,7 @@ def generar_nombre_producto(categoria, marca, nombre, descripcion, codigo_barra)
         nombre_producto = nombre_producto[:150]
 
     return nombre_producto
+
 
 
 ### Funciones para EAN8 Y EAN13 ###

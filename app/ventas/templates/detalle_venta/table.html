@@ -1,0 +1,21 @@
+{% extends "base_table.html" %}
+{% load static %}
+{%  block head_list %}
+    <script src="{% static 'detalle/js/listar.js' %}"></script>
+{% endblock %}
+
+
+    {% block columns %}
+        <th>ID</th>
+        <th>ID Venta</th>
+        <th>Producto</th>
+        <th>Cantidad</th>
+        <th>Precio</th>
+        <th>Subtotal</th>
+    {% endblock columns %}
+
+{% block rows %}
+{% endblock rows %}
+
+{% block javascript_list %}
+{% endblock javascript_list %}
