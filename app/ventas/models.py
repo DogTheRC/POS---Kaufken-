@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
-from app.productos.models import Producto
+from app.productos.models import Producto, Promocion
 from decimal import Decimal
 from django.forms.models import model_to_dict
 from app.ventas.validation import *
@@ -70,8 +70,9 @@ class DetalleVenta(models.Model):
     producto = models.ForeignKey(Producto, on_delete=models.SET_NULL, null=True)
     cantidad = models.PositiveIntegerField()
     precio_unitario = models.PositiveIntegerField()
-    subtotal = models.DecimalField(max_digits=10, decimal_places=2, default=Decimal('0.00'))
-
+    subtotal = models.PositiveIntegerField()
+    descuento_aplicado = models.PositiveIntegerField(default=0) # Descuento manual adicional
+    promocion = models.ForeignKey(Promocion, on_delete=models.SET_NULL, null=True, blank=True)
     
     def save(self, *args, **kwargs):
         # Calcular el subtotal antes de guardar

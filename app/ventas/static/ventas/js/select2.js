@@ -21,6 +21,10 @@ var venta = {
         $.each(this.items.productos, function(pos, dict){
             dict.pos = pos;
             dict.subtotal = dict.cantidad * parseFloat(dict.precio);
+            if (dict.descuento > 0) {
+                // Descuento se aplica al subtotal
+                dict.subtotal = dict.subtotal - (dict.subtotal * dict.descuento / 100);
+            }
             total += dict.subtotal;
         });
         this.items.total = total;
@@ -63,6 +67,7 @@ var venta = {
                 { data: "precio" },
                 { data: "stock" },
                 { data: "cantidad" },
+                { data: "descuento" },
                 { data: "subtotal" }
             ],
             columnDefs: [
@@ -77,7 +82,7 @@ var venta = {
                     }
                 },
                 {
-                    targets: [-4, -1],  // Columna de precio y subtotal
+                    targets: [-5, -1],  // Columna de precio y subtotal
                     class: 'text-center',
                     orderable: false,
                     render: function(data, type, row) {
@@ -85,7 +90,7 @@ var venta = {
                     }
                 },
                 {
-                    targets: [-2],  // Columna de cantidad
+                    targets: [-3],  // Columna de cantidad
                     class: 'text-center',
                     orderable: false,
                     render: function(data, type, row) {
@@ -156,10 +161,12 @@ $(function () {
                             marca: item.marca,
                             codigo_barra: item.codigo_barra,
                             precio: item.precio,
-                            stock: item.stock
+                            stock: item.stock,
+                            descuento: item.promocion && item.promocion.estado ? item.promocion.descuento : 0,  // Aplica el descuento solo si está activo
                         };
                     })
                 };
+               
             }
         },
         placeholder: "Ingrese una descripción",  // Texto mostrado cuando el campo está vacío
@@ -184,6 +191,7 @@ $(function () {
             return data.text || "Seleccione un producto";  // Nombre del producto o texto por defecto
         }
     });
+
 
     $('.limpiar_busqueda').on('click', function() {
         // Limpiar el select2 y el campo de búsqueda
@@ -220,7 +228,7 @@ $(function () {
         var tr = tabla.cell($(this).closest('td, li')).index();
         venta.items.productos[tr.row].cantidad = cantidad;
         venta.calcular_invoice();
-        $('td:eq(7)',tabla.row(tr.row).node()).html('$'+venta.items.productos[tr.row].subtotal);
+        $('td:eq(8)',tabla.row(tr.row).node()).html('$'+venta.items.productos[tr.row].subtotal);
     });
     
     $('#formRegistrarVenta').on('submit', function(e) {

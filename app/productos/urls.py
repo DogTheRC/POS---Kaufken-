@@ -2,6 +2,7 @@ from django.urls import path
 from app.productos.views.producto import views
 from app.productos.views.categoria import views as views_categoria
 from app.productos.views.marca import views as views_marca
+from app.productos.views.promocion import views as views_promocion
 
 app_name = 'productos'
 
@@ -23,6 +24,12 @@ urlpatterns = [
     path('marcas/crear/', views_marca.MarcaCreateView.as_view(), name="crearMarcas"),
     path('marcas/editar/<int:pk>/', views_marca.MarcaUpdateView.as_view(), name="editarMarcas"),
     path('marcas/delete/<int:pk>/', views_marca.MarcaDeleteView.as_view(), name="eliminarMarcas"),
+    
+    #Promocion
+    path('promocion/', views_promocion.PromocionListView.as_view(), name="listarPromociones"),
+    path('promocion/crear/', views_promocion.PromocionCreateView.as_view(), name="crearPromociones"),
+    path('promocion/editar/<int:pk>/', views_promocion.PromocionUpdateView.as_view(), name="editarPromociones"),
+    path('promocion/delete/<int:pk>/', views_promocion.PromocionDeleteView.as_view(), name="eliminarPromociones"),
     
 
 ]

@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'app.productos',
     'app.notificaciones',
     'app.ventas',
+    'app.reportes',
 ]
 
 MIDDLEWARE = [
@@ -66,6 +67,7 @@ TEMPLATES = [
             BASE_DIR / 'app' / 'users' / 'templates',
             BASE_DIR / 'app' / 'notificaciones' / 'templates',
             BASE_DIR / 'app' / 'ventas' / 'templates',
+            BASE_DIR / 'app' / 'reportes' / 'templates',
 
             ],
         'APP_DIRS': True,

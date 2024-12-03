@@ -48,8 +48,8 @@ def validate_detalle_venta(detalle):
 
     if detalle.precio_unitario <= 0:
         raise ValidationError("El precio unitario debe ser un número positivo mayor que cero.")
+    
+    calculated_subtotal = round(detalle.cantidad * detalle.precio_unitario)
 
-    # Validate subtotal calculation
-    calculated_subtotal = Decimal(detalle.cantidad) * Decimal(detalle.precio_unitario)
-    if abs(detalle.subtotal - calculated_subtotal) > Decimal('0.01'):
-        raise ValidationError(f"El subtotal calculado (${calculated_subtotal}) no coincide con el subtotal registrado (${detalle.subtotal}).")
+    if detalle.subtotal != calculated_subtotal:
+     raise ValidationError(f"El subtotal calculado (${calculated_subtotal}) no coincide con el subtotal registrado (${detalle.subtotal}).")

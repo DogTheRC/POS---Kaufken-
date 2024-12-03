@@ -49,6 +49,54 @@ class Marca(models.Model):
     class Meta:
         ordering = ['-created_at']
         db_table = 'marca'
+        
+        
+        
+        
+ 
+
+class Promocion(models.Model):
+    
+    nombre = models.CharField(max_length=255, unique=True)
+    descripcion = models.TextField(blank=True)
+    descuento = models.DecimalField(max_digits=5, decimal_places=2, validators=[MinValueValidator(0), MaxValueValidator(100)])  # Descuento en porcentaje
+    fecha_inicio = models.DateTimeField()
+    fecha_fin = models.DateTimeField()
+    estado = models.BooleanField(default=False)
+    autor = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    
+    def __str__(self):
+        return self.nombre
+    
+    def toJSON(self):
+        item = model_to_dict(self)
+        item['autor_nombre'] = self.autor.username if self.autor else None
+        item['created_at'] = self.created_at.strftime('%d-%m-%Y %H:%M')
+        item['updated_at'] = self.updated_at.strftime('%d-%m-%Y %H:%M')
+        item['fecha_inicio'] = self.fecha_inicio.strftime('%d-%m-%Y')
+        item['fecha_fin'] = self.fecha_fin.strftime('%d-%m-%Y')
+        return item
+    
+    def clean(self):
+        # Validar el nombre de la promoción
+       validar_nombre_general(self.nombre, tipo="promocion")
+        
+        # Validar las fechas
+       validar_fechas_promocion(self.fecha_inicio, self.fecha_fin)
+
+        # Validar que el descuento esté en el rango de 0 a 100
+       if self.descuento < 0 or self.descuento > 100:
+            raise ValidationError('El descuento debe ser un valor entre 0 y 100.')
+
+
+    class Meta:
+        db_table = 'promocion'
+        ordering = ['-fecha_inicio']       
+        
+        
+        
 
 # Modelo de Producto
 class Producto(models.Model):
@@ -74,6 +122,8 @@ class Producto(models.Model):
     fecha_vencimiento = models.DateField()
     created_at = models.DateTimeField(auto_now_add=True)  # Fecha de creación
     updated_at = models.DateTimeField(auto_now=True)  # Fecha de la última modificación
+    
+    promocion = models.ForeignKey(Promocion, on_delete=models.SET_NULL, null=True, blank=True)
 
     def __str__(self):
         return self.nombre
@@ -114,4 +164,3 @@ class Producto(models.Model):
         db_table = 'producto'
         ordering = ['-created_at']
         
-

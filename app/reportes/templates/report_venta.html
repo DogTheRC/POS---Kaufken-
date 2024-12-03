@@ -1,0 +1,43 @@
+{% extends "base_table.html" %}
+{% load static %}
+{%  block head_list %}
+    <script src="{% static 'ventas/js/listar.js' %}"></script>
+    <script src="{% static 'ventas/js/reporte.js' %}"></script>
+    <!-- Cargar moment.js (dependencia para daterangepicker) -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+
+    <!-- Cargar daterangepicker (plugin que depende de moment.js y jQuery) -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/locales/bootstrap-datepicker.es.min.js"></script>
+    <!-- Cargar el CSS de daterangepicker -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+
+{% endblock %}
+{% block table %} 
+
+<h2 class="table_h2" >
+    {{ title }}
+</h2>
+<div class"range_fechas">
+    <label>Rango de fechas</label>
+    {{ form.date_range}}
+</div>
+<table class="table" id="table">
+    <thead>
+        <tr>
+            <th></th>
+            <th>ID</th>
+            <th>Usuario</th>
+            <th>Fecha Venta</th>
+            <th>Total</th>
+        </tr>
+    </thead>
+    <tbody>
+
+    </tbody>
+</table>
+
+
+
+{% endblock table %}

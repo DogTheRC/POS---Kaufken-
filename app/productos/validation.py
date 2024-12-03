@@ -1,6 +1,6 @@
 import re
 from django.core.exceptions import ValidationError
-from datetime import date
+from datetime import date, datetime, timedelta
 
 # Método para generar el nombre estandarizado
 def validar_nombre_general(nombre, tipo=""):
@@ -96,3 +96,25 @@ def validar_stock(stock, stock_minimo, stock_maximo, stock_critico):
     # 5. El stock crítico debe ser menor que el stock mínimo (opcional)
     if stock_critico >= stock_minimo:
         raise ValidationError('El stock crítico debe ser menor que el stock mínimo.')
+    
+
+# Validación de fechas
+
+
+def validar_fechas_promocion(fecha_inicio, fecha_fin):
+
+    # Validación de que la fecha de fin no sea en el pasado
+    if fecha_fin < datetime.now():
+        raise ValidationError('La fecha de fin no puede ser en el pasado.')
+
+    # Validación de que la fecha de inicio no sea posterior a la fecha de fin
+    if fecha_inicio > fecha_fin:
+        raise ValidationError('La fecha de inicio no puede ser posterior a la fecha de fin.')
+
+    # Validación de que la duración de la promoción no sea mayor a un año
+    if fecha_fin - fecha_inicio > timedelta(days=365):
+        raise ValidationError('La duración de la promoción no puede ser mayor a un año.')
+
+    # Validación de que la fecha de inicio no puede ser más antigua que un año
+    if fecha_inicio < datetime.now().replace(year=datetime.now().year - 1):
+        raise ValidationError('La fecha de inicio no puede ser más antigua que un año.')
