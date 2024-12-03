@@ -61,7 +61,7 @@ var venta = {
                 { data: "categoria" },
                 { data: "marca" },
                 { data: "precio" },
-                { data: "stock" },
+                { data: "stock_minimo" },
                 { data: "cantidad" },
                 { data: "subtotal" }
             ],
@@ -105,7 +105,7 @@ var venta = {
             rowCallback( row, data, displayNum, displayIndex, dataIndex ){
                 $(row).find('input[name="cantidad"]').TouchSpin({
                     min: 1,
-                    max: data.stock,
+                    max: data.stock_minimo,
                     step: 1,
                 })
             },
@@ -156,7 +156,8 @@ $(function () {
                             marca: item.marca,
                             codigo_barra: item.codigo_barra,
                             precio: item.precio,
-                            stock: item.stock
+                            stock: item.stock,
+                            stock_minimo: item.stock_minimo,
                         };
                     })
                 };

@@ -1,17 +1,47 @@
 {% extends "base.html" %}
-
 {% load static %}
 
 {% block title %}
-home
+  Sistema POS - Panadería Kaufken
 {% endblock %}
 
 {% block extra_head %}
-<link rel="stylesheet" href="{% static 'css/home.css' %}">
+  <style>
+
+  </style>
 {% endblock %}
 
 {% block content %}
-<div class="home-content">
-    <h2>Panaderia Kaufken </h2>
-</div>
-{%  endblock %}
+  <div class="header">
+    <h1>Bienvenido al Sistema POS de la Panadería Kaufken</h1>
+    <p>Gestión sencilla y eficiente para tu panadería.</p>
+  </div>
+
+  <div class="container">
+    <section>
+      <h2 class="section-title">¿Qué es este sistema POS?</h2>
+      <p class="content">Este sistema de punto de venta (POS) está diseñado para simplificar la gestión de ventas, inventarios y control de productos en la Panadería Kaufken. Con una interfaz fácil de usar y funcionalidades robustas, el sistema permite a los empleados registrar ventas, monitorear existencias, y generar reportes de forma eficiente.</p>
+    </section>
+
+    <section>
+      <h2 class="section-title">Características principales:</h2>
+      <ul class="features-list">
+        <li>Registro rápido de ventas con productos</li>
+        <li>Control de inventarios</li>
+        <li>Notificaciones de Productos </li>
+        <li>Interfaz intuitiva para facilitar la capacitación de empleados.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2 class="section-title">Beneficios para la Panadería Kaufken</h2>
+      <p class="content">Al implementar este sistema POS, la Panadería Kaufken se beneficiará de una mayor eficiencia en el proceso de ventas y un mejor control de sus productos, lo que permitirá tomar decisiones más informadas sobre compras y oferta. Además, la automatización de ciertos procesos reducirá los errores humanos y mejorará la experiencia tanto para los empleados como para los clientes.</p>
+    </section>
+
+    <section>
+      <h2 class="section-title">Soporte y Actualizaciones</h2>
+      <p class="content">Nuestro sistema POS está diseñado para ser actualizado regularmente, lo que garantiza nuevas funcionalidades y mejoras continuas. Además, ofrecemos soporte técnico dedicado para resolver cualquier inconveniente que pueda surgir durante el uso del sistema.</p>
+    </section>
+  </div>
+
+{% endblock %}

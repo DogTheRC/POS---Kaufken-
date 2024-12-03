@@ -4,7 +4,7 @@
         {% if user.is_staff %}
         <li>
            <details class="details_inventario">
-             <summary>Opciones de Inventario</summary>
+             <summary>>Opciones de Inventario 📦</summary>
              <ul>
                  <li><a href="{% url 'productos:listarProductos' %}">Inventario</a></li>
                  <li><a href="{% url 'productos:listarCategorias' %}">Tabla Categorias</a></li>
@@ -13,16 +13,16 @@
            </details>
         </li>
         {% endif %}
-        <li><a href="{% url 'ventas:crearVentas'%}">Registrar Venta</a></li>
-        <li><a href="{% url 'ventas:listarVentas'%}">Ventas</a></li>
-        <li><a href="{% url 'notificacion:listarNotificaciones' %}">Notificaciones</a></li>
+        <li><a href="{% url 'ventas:crearVentas'%}">Registrar Venta 💰</a></li>
+        <li><a href="{% url 'ventas:listarVentas'%}">Ventas 📊</a></li>
+        <li><a href="{% url 'notificacion:listarNotificaciones' %}">Notificaciones 🔔</a></li>
         {% if user.is_superuser %}
-            <li><a href="/admin/">Admin</a></li>
+            <li><a href="/admin/">Admin 🛠️</a></li>
         {% endif %}
         <li>
             <form class="logout" action="{% url 'users:logout' %}" method="post">
                 {% csrf_token %}
-                <button class="logout-button" aria-label="Logout Button" title="Cerrar Sesión">Cerrar Sesión</button>
+                <button class="logout-button" aria-label="Logout Button" title="Cerrar Sesión">Cerrar Sesión 🚪</button>
             </form>
         </li>
     </ul>

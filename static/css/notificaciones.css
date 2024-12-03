@@ -1,102 +1,184 @@
-/* Estilo para el contenedor de la notificación */
-.notificacion {
-    background-color: #f9f9f9;
-    border: 1px solid #ddd;
+h1{
+  font-size: 26px;
+  font-weight: 700;
+  color: #333;
+  margin-bottom: 15px;
+  text-align: center;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  position: relative;
+  padding-bottom: 10px; /* Espacio adicional debajo para que la línea decorativa no esté tan pegada */
+}
+
+h1::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60px; /* Ancho de la línea decorativa */
+  height: 4px; /* Grosor de la línea */
+  background-color: #007bff; /* Color de la línea */
+}
+
+/* Efecto hover: cambia el color de la línea */
+h1:hover::after {
+  background-color: #28a745; /* Verde al hacer hover */
+}
+
+/* Notifications Container */
+#notificaciones-list {
+    max-width: 1500px;
+    margin: 0 auto;
+    font-family: 'Arial', sans-serif;
+    background-color: #f4f4f4;
     border-radius: 8px;
+    padding: 10px;
+}
+
+/* Individual Notification Styling */
+.notificacion {
+    background-color: #ffffff;
+    border-radius: 6px;
+    margin-bottom: 12px;
     padding: 15px;
-    margin-bottom: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Unread Notification Highlight */
+.notificacion.no-leida {
+    border-left: 4px solid #ff6b6b;
+}
+
+/* Notification Header */
+.notificacion h3 {
+    color: #333;
+    margin: 0 0 10px 0;
+    font-size: 16px;
+    font-weight: 700;
+}
+
+/* Stock Status Paragraphs */
+.notificacion .stock-status {
+    margin: 8px 0;
+    color: #666;
+    font-size: 14px;
     display: flex;
     align-items: center;
-    flex-direction: column;
-}
-.notificacion:hover {
-    transform: scale(1.015); 
-    transition: transform 0.3s ease; 
-}
-/* Estilo para los iconos en los párrafos */
-.icono {
-    font-size: 20px;
-    margin-right: 10px; /* Espacio entre el icono y el texto */
 }
 
-/* Estilo para las notificaciones leídas */
-.notificacion.leida {
-    background-color: #e0e0e0;
-    border-color: #bbb;
+/* Icons Styling */
+.notificacion .icono {
+    margin-right: 10px;
+    color: #666;
 }
 
-/* Estilo para las notificaciones no leídas */
-.notificacion.no-leida {
-    background-color: #fff;
-    border-color: #007bff;
-    box-shadow: 0 0 10px rgba(0, 123, 255, 0.3);
+/* Stock Level Color Coding */
+.stock-status:nth-child(3) .icono {
+    color: #ff6b6b;
 }
 
-/* Estilo para los títulos */
-.notificacion h3 {
-    font-size: 24px;
-    margin: 0;
-    color: #e74c3c;
-}
-
-/* Estilo para los párrafos */
-.notificacion p {
-    font-size: 18px;
-    margin: 5px 0;
-}
-
-/* Estilos para las descripciones */
-.notificacion .fa-calendar {
-    color: #17a2b8; /* Rojo para el icono de sin stock */
-}
-.notificacion .fa-ban {
-    color: #dc3545; /* Rojo para el icono de sin stock */
-}
-
-.notificacion .fa-exclamation-triangle {
-    color: #ffc107; /* Amarillo para el icono de stock crítico */
-}
-
-.notificacion .fa-arrow-down {
-    color: #174ab8; /* Azul para el icono de stock mínimo */
-}
-
-/* Estilo del botón para marcar como leída */
+/* Mark as Read Button */
 .btn-marcar-leida {
-    background-color: #28a745;
+    background-color: #4ecdc4;
     color: white;
     border: none;
     padding: 8px 12px;
-    font-size: 14px;
-    cursor: pointer;
     border-radius: 4px;
-    transition: background-color 0.3s;
+    cursor: pointer;
+    font-size: 12px;
+    transition: background-color 0.3s ease;
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
 }
 
 .btn-marcar-leida:hover {
-    background-color: #218838;
+    background-color: #45b7aa;
 }
 
-.btn-marcar-leida i {
-    margin-right: 5px;
+/* Different Colors for Different Notification Types */
+.notificacion[data-id] {
+    transition: background-color 0.3s ease;
 }
 
-/* Estilo para el mensaje cuando no hay notificaciones */
-#no-notificaciones {
-    padding: 20px;
-    background-color: #f8d7da;
-    border: 1px solid #f5c6cb;
-    color: #721c24;
-    border-radius: 8px;
-    text-align: center;
+/* Stock Minimum Warning */
+.notificacion h3:contains('stock mínimo') {
+    color: #ff9800;
 }
-h1{
-    font-size: 32px; 
+
+/* Expiring Product Warning */
+.notificacion h3:contains('fecha de vencimiento') {
+    color: #ff5722;
+}
+
+/* Expired Product Alert */
+.notificacion h3:contains('vencido') {
+    color: #f44336;
+}
+
+/* Responsive Design */
+@media (max-width: 600px) {
+    #notificaciones-list {
+        width: 95%;
+        padding: 5px;
+    }
+
+    .notificacion {
+        padding: 10px;
+    }
+
+    .notificacion .stock-status {
+        font-size: 12px;
+    }
+}
+/* Main Notifications Header */
+h3.notificacion-title {
+    background-color: #4ecdc4;
+    color: white;
+    padding: 15px 20px;
+    margin: 0 0 15px 0;
+    border-radius: 6px;
+    font-size: 18px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+h3.notificacion-title::before {
+    content: '📢';
+    margin-right: 10px;
+    font-size: 24px;
+}
+
+/* Individual Notification Headers */
+.notificacion h3 {
+    color: #333;
+    font-size: 16px;
     font-weight: 700;
-    color: #333; 
-    margin-bottom: 20px;
-    text-align: center; 
-    padding-bottom: 12px; 
-    text-transform: uppercase; 
-    letter-spacing: 1.5px;
+    margin: 0 0 10px 0;
+    padding-bottom: 8px;
+    border-bottom: 2px solid #f0f0f0;
+}
+
+/* Color Variations for Notification Types */
+.notificacion h3:contains('stock mínimo') {
+    color: #ff9800;
+    border-bottom-color: rgba(255, 152, 0, 0.2);
+}
+
+.notificacion h3:contains('fecha de vencimiento') {
+    color: #ff5722;
+    border-bottom-color: rgba(255, 87, 34, 0.2);
+}
+
+.notificacion h3:contains('vencido') {
+    color: #f44336;
+    border-bottom-color: rgba(244, 67, 54, 0.2);
 }

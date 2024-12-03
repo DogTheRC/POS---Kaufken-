@@ -147,3 +147,17 @@ footer {
     text-align: left;
     margin-top: -5px;
 }
+/* Estilo para el logo */
+header .logo {
+    width: 80px;           /* Ajusta el tamaño según tus necesidades */
+    height: auto;           /* Mantiene la proporción de la imagen */
+    border-radius: 8px;     /* Bordes redondeados */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);  /* Sombra suave */
+    transition: transform 0.3s ease, box-shadow 0.3s ease;  /* Transiciones suaves */
+}
+
+/* Efecto al pasar el ratón sobre el logo */
+header .logo:hover {
+    transform: scale(1.1);  /* Aumenta el tamaño del logo */
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);  /* Sombra más pronunciada */
+}
