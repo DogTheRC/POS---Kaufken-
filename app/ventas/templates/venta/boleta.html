@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ title }}</title>
+    <link rel="icon" type="image/png" href="{{ icon }}">
+    <style>
+        @page {
+            width: 58mm;
+            height: auto;
+            margin: 0;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            padding: 0;
+            margin: 0;
+            font-size: 7px; /* Tamaño de fuente ajustado */
+            color: black;
+            line-height: 0.5;
+        }
+
+        .container {
+            width: 58mm;
+            padding: 10px;
+            margin: 0;
+        }
+
+        /* Cabecera */
+        .header {
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+        .header-logo {
+            width: 20px;
+            height: 20px;
+        }
+
+        .header-info h1 {
+            font-size: 9px;
+            margin: 5px 0;
+            text-transform: uppercase;
+        }
+
+        .header-info p {
+            font-size: 6px;
+            margin: 2px 0;
+        }
+
+        /* Información de la empresa */
+        .empresa-info {
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+        .empresa-info p {
+            font-size: 6px;
+            margin: 2px 0;
+        }
+
+        /* Detalles de la venta */
+        .details {
+            margin-top: 10px;
+        }
+
+        .section-title {
+            font-weight: bold;
+            font-size: 7px;
+            margin-bottom: 4px;
+            text-transform: uppercase;
+        }
+
+        table {
+            width: 100%;
+            font-size: 6px;
+            border-collapse: collapse;
+            margin-bottom: 5px;
+        }
+
+        table th, table td {
+            padding: 2px;
+            text-align: left;
+            border: 1px solid black;
+        }
+
+        table th {
+            background-color: #f0f0f0;
+            text-transform: uppercase;
+        }
+
+        .total {
+            font-weight: bold;
+            font-size: 7px;
+            margin-top: 5px;
+            text-align: right; /* Total alineado a la derecha */
+        }
+
+        /* Información del pago */
+        .payment-info {
+            margin-top: 10px;
+        }
+
+        .payment-info p {
+            font-size: 6px;
+            margin: 2px 0;
+        }
+
+        /* Pie de página */
+        .footer {
+            text-align: center;
+            font-size: 5px;
+            margin-top: 10px;
+        }
+
+        .footer p {
+            margin: 0;
+        }
+
+        /* Alineación a la derecha */
+        .venta {
+            text-align: center;
+        }
+
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <!-- Logo y encabezado -->
+    <div class="header">
+        <img src="{{ icon }}" alt="Logo" class="header-logo">
+        <div class="header-info">
+            <h1>{{ title }}</h1>
+            <p><strong>Fecha:</strong> {{ venta.create_at|date:"d-m-Y H:i" }}</p>
+            <p class="venta"><strong>Venta ID:</strong> {{ venta.id }}</p>
+        </div>
+    </div>
+
+    <!-- Información de la empresa -->
+    <div class="empresa-info">
+        <p><strong>Nombre:</strong> {{ empresa.nombre }}</p>
+        <p><strong>RUT:</strong> {{ empresa.rut }}</p>
+        <p><strong>Dirección:</strong> {{ empresa.direccion }}</p>
+        <p><strong>Email:</strong> {{ empresa.email }}</p>
+    </div>
+
+    <!-- Detalles de la venta -->
+    <div class="details">
+        <h2 class="section-title">Detalles Venta</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Producto</th>
+                    <th>Cant.</th>
+                    <th>P. Unit.</th>
+                    <th>Subtotal</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for detalle in venta.detalles.all %}
+                <tr>
+                    <td>{{ detalle.producto.nombre }}</td>
+                    <td>{{ detalle.cantidad }}</td>
+                    <td>${{ detalle.precio_unitario}}</td>
+                    <td class="text-right">${{ detalle.subtotal }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <p class="total"><strong>Total:</strong> ${{ venta.total}}</p>
+    </div>
+
+    <!-- Información de pagos -->
+    <div class="payment-info">
+        <h3 class="section-title">Pagos Realizados</h3>
+        {% for pago in venta.pagos.all %}
+        <p><strong>Pago:</strong> {{ pago.get_metodo_pago_display }}</p>
+        <p><strong>Monto:</strong> ${{ pago.monto }}</p>
+        <p><strong>Fecha:</strong> {{ pago.fecha_pago|date:"d-m-Y H:i" }}</p>
+        <hr>
+        {% endfor %}
+    </div>
+
+    <!-- Pie de página -->
+    <div class="footer">
+        <p>&copy; 2024 {{ empresa.nombre }} - Todos los derechos reservados.</p>
+    </div>
+</div>
+
+</body>
+</html>

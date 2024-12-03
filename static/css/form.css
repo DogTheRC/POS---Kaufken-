@@ -135,3 +135,56 @@
     transform: scale(1.3);
     margin-right: 10px;
   }
+
+  .button_formulario_cancel {
+    margin-top: 20px;
+    width: 100%;
+    padding: 15px;
+    background-color: rgb(191, 40, 40);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-size: 18px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: var(--transicion);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    box-shadow: 0 6px 15px rgba(40, 95, 167, 0.3);
+    text-decoration: none;
+  
+}
+.button_formulario_cancel i {
+  font-size: 22px;
+}
+.button_formulario_cancel:hover {
+  background-color: #801d1d;
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(40, 95, 167, 0.4);
+}
+
+.button_formulario_cancel i {
+    margin-right: 8px;
+}
+
+/* Efecto al pasar el ratón por encima */
+.button_formulario_cancel:hover {
+    background-color: #d32f2f;
+    border-color: #b71c1c;
+}
+
+/* Efecto al hacer clic */
+.button_formulario_cancel:active {
+    background-color: #c62828;
+    transform: scale(0.98);
+}
+
+/* Efecto al tener el foco */
+.button_formulario_cancel:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(255, 87, 34, 0.5);
+}

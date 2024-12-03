@@ -1,0 +1,425 @@
+/* Contenedor principal */
+.venta_master {
+    display: flex;
+    flex-direction: row;
+    gap: 40px;
+    padding: 30px;
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+    transition: all 0.3s ease;
+}
+
+.venta_master:hover {
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    transform: translateY(-5px);
+}
+
+/* Detalle de venta */
+.detalle_venta {
+    flex: 3;
+    padding-right: 20px;
+}
+
+.busqueda {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.busqueda_producto {
+    flex-grow: 1;
+    padding: 14px 22px;
+    border: 2px solid transparent;
+    border-radius: 8px;
+    font-size: 16px;
+    background-color: #f9f9f9;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+}
+
+.busqueda_producto:focus {
+    border-color: #4a90e2;
+    background-color: #ffffff;
+    box-shadow: 0 4px 10px rgba(74, 144, 226, 0.15);
+}
+
+/* Botón de limpiar búsqueda */
+.limpiar_busqueda {
+    background-color: #ff5252;
+    border: none;
+    color: #fff;
+    padding: 14px 18px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
+.limpiar_busqueda i {
+    font-size: 20px;
+}
+
+.limpiar_busqueda:hover {
+    background-color: #ff1744;
+    transform: scale(1.05);
+}
+
+/* Botón eliminar todo */
+#eliminar_todo {
+    background-color: #f44336;
+    color: white;
+    border: none;
+    max-width: 380px;
+    padding: 10px 15px; /* Reduced padding */
+    border-radius: 6px;
+    font-size: 14px; /* Smaller font size */
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 15px;
+    width: 100%;
+    font-family: Arial, sans-serif; /* Removed Font Awesome font */
+    transition: all 0.3s ease;
+    text-transform: uppercase; /* Optional: makes text uppercase */
+    font-weight: 600; /* Optional: slightly bolder text */
+}
+
+#eliminar_todo:hover {
+    background-color: #d32f2f;
+    transform: translateY(-2px);
+}
+
+#eliminar_todo i {
+    font-size: 16px; /* Slightly smaller icon */
+    margin-right: 5px;
+}
+
+/* Tabla de productos */
+.table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    margin-top: 25px;
+    background-color: #ffffff;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+}
+
+.table thead {
+    background-color: #4a90e2;
+    color: #fff;
+}
+
+.table th, .table td {
+    text-align: left;
+    padding: 15px;
+    border-bottom: 1px solid #e9ecef;
+    font-size: 15px;
+    vertical-align: middle;
+    transition: background-color 0.2s ease;
+}
+
+.table tr:hover {
+    background-color: #f1f6fc;
+}
+
+/* Formulario de venta */
+.venta {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 25px;
+    border: 2px solid #e9ecef;
+    border-radius: 10px;
+    background-color: #f8f9fa;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+}
+
+.venta_form input, 
+.venta_form select, 
+.venta_form button {
+    width: 100%;
+    padding: 14px;
+    margin-top: 12px;
+    border-radius: 8px;
+    border: 2px solid #e9ecef;
+    font-size: 16px;
+    background-color: #ffffff;
+    transition: all 0.3s ease;
+}
+
+.venta_form input:focus, 
+.venta_form select:focus {
+    border-color: #4a90e2;
+    box-shadow: 0 4px 10px rgba(74, 144, 226, 0.15);
+}
+
+/* Botón del formulario */
+.button_formulario {
+    background-color: #2ecc71;
+    color: #fff;
+    border: none;
+    padding: 16px;
+    border-radius: 8px;
+    font-size: 17px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    transition: all 0.3s ease;
+}
+
+.button_formulario:hover {
+    background-color: #27ae60;
+    transform: translateY(-3px);
+    box-shadow: 0 4px 15px rgba(46, 204, 113, 0.3);
+}
+
+/* Detalles de pagos */
+.detalle_pagos {
+    background-color: #f1f3f5;
+    padding: 25px;
+    border-radius: 10px;
+    border: 2px solid #e9ecef;
+}
+
+.detalle_pagos h4 {
+    margin-top: 0;
+    font-size: 20px;
+    color: #4a4a4a;
+    margin-bottom: 15px;
+}
+
+#vuelto, #saldo-restante {
+    font-weight: bold;
+    margin-top: 20px;
+    font-size: 18px;
+    color: #2ecc71;
+}
+
+#eliminar-segundo-pago {
+    background-color: #ff5252;
+    color: #fff;
+    border: none;
+    padding: 12px 15px;
+    border-radius: 8px;
+    font-size: 15px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+#eliminar-segundo-pago:hover {
+    background-color: #ff1744;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(255, 82, 82, 0.3);
+}
+
+/* Selects y Inputs */
+select.form-control, 
+input.form-control {
+    font-size: 16px;
+    border-radius: 8px;
+    border: 2px solid #e9ecef;
+    padding: 14px;
+    background-color: #ffffff;
+    transition: all 0.3s ease;
+}
+
+select.form-control:focus, 
+input.form-control:focus {
+    border-color: #4a90e2;
+    box-shadow: 0 4px 10px rgba(74, 144, 226, 0.15);
+}
+
+
+/* Improved styling for elimination button in the table */
+.buttom_eliminar {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    background-color: #f44336;
+    color: white;
+    border-radius: 6px;
+    transition: all 0.3s ease;
+    text-align: center;
+    padding: 0;
+}
+
+.buttom_eliminar:hover {
+    background-color: #d32f2f;
+    transform: scale(1.05);
+}
+
+.buttom_eliminar i {
+    font-size: 18px;
+}
+
+/* Ensure table cells have consistent alignment and height */
+.table td {
+    vertical-align: middle;
+    height: 60px;
+    padding: 10px 15px;
+}
+
+/* Improved Select2 clear button styling */
+.select2-selection--single {
+    height: 48px !important;
+    display: flex;
+    align-items: center;
+}
+
+.select2-selection__clear {
+    background-color: transparent;
+    color: #ff5252;
+    border: none;
+    margin-right: 10px;
+    cursor: pointer;
+    transition: color 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+}
+
+.select2-selection__clear:hover {
+    color: #ff1744;
+    background-color: rgba(255, 82, 82, 0.1);
+}
+
+.select2-selection__clear span {
+    font-size: 20px;
+    line-height: 1;
+    font-weight: bold;
+}
+
+/* Ensure select2 dropdown arrow and content are vertically centered */
+.select2-selection__arrow {
+    top: 50% !important;
+    transform: translateY(-50%) !important;
+    right: 10px !important;
+}
+
+.select2-selection__rendered {
+    line-height: 48px !important;
+    display: flex;
+    align-items: center;
+}
+
+
+
+/* Contenedor de vuelto */
+#vuelto {
+    background-color: #f8f9fa;
+    border: 2px solid #e9ecef;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+    margin-top: 20px;
+}
+
+/* Título del vuelto */
+#vuelto h4 {
+    font-size: 20px;
+    color: #4a4a4a;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+/* Input del vuelto */
+#vuelto-efectivo {
+    font-size: 18px;
+    font-weight: bold;
+    color: #2ecc71;
+    background-color: #ffffff;
+    border: 2px solid #e9ecef;
+    padding: 14px;
+    width: 100%;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
+    text-align: center;
+}
+
+/* Estilo para el input cuando es readonly */
+#vuelto-efectivo:readonly {
+    background-color: #f1f3f5;
+    color: #4a4a4a;
+}
+
+/* Estilo al enfocar el input */
+#vuelto-efectivo:focus {
+    border-color: #4a90e2;
+    box-shadow: 0 4px 10px rgba(74, 144, 226, 0.15);
+}
+
+
+.form_h2 {
+    font-size: 26px;
+    font-weight: 700;
+    color: #333;
+    margin-bottom: 15px;
+    text-align: center;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    position: relative;
+    padding-bottom: 10px; /* Espacio adicional debajo para que la línea decorativa no esté tan pegada */
+}
+
+.form_h2::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px; /* Ancho de la línea decorativa */
+    height: 4px; /* Grosor de la línea */
+    background-color: #007bff; /* Color de la línea */
+}
+
+/* Efecto hover: cambia el color de la línea */
+.form_h2:hover::after {
+    background-color: #28a745; /* Verde al hacer hover */
+}
+
+
+
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .venta_master {
+        flex-direction: column;
+        padding: 20px;
+        gap: 20px;
+    }
+
+    .detalle_venta, .venta {
+        width: 100%;
+        flex: none;
+    }
+
+    .busqueda {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .busqueda_producto, 
+    .limpiar_busqueda {
+        width: 100%;
+    }
+}
+

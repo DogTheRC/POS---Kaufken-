@@ -1,0 +1,95 @@
+/* Global Notification Styling */
+#notificaciones-list {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f4f4f8;
+}
+
+/* Notification Container */
+.notificacion {
+    background-color: white;
+    border-left: 5px solid #007bff;
+    border-radius: 10px;
+    padding: 15px;
+    margin-bottom: 15px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.notificacion:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+}
+
+/* Notification Title */
+.notificacion h3 {
+    font-size: 20px;
+    color: #e74c3c;
+    margin-bottom: 10px;
+    border-bottom: 2px solid #f1f1f1;
+    padding-bottom: 5px;
+}
+
+/* Notification Status Paragraphs */
+.stock-status {
+    display: flex;
+    align-items: center;
+    margin: 8px 0;
+    color: #555;
+}
+
+/* Icons */
+.icono {
+    margin-right: 10px;
+    font-size: 20px;
+}
+
+.fa-calendar { color: #17a2b8; }
+.fa-ban { color: #dc3545; }
+.fa-exclamation-triangle { color: #ffc107; }
+.fa-arrow-down { color: #174ab8; }
+
+/* Mark as Read Button */
+.btn-marcar-leida {
+    background-color: #28a745;
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+    display: flex;
+    align-items: center;
+    margin-top: 10px;
+}
+
+.btn-marcar-leida:hover {
+    background-color: #218838;
+    transform: scale(1.05);
+}
+
+.btn-marcar-leida i {
+    margin-right: 5px;
+}
+
+/* Responsive Design */
+@media (max-width: 600px) {
+    #notificaciones-list {
+        padding: 10px;
+    }
+    .notificacion {
+        padding: 10px;
+    }
+    .stock-status {
+        font-size: 16px;
+    }
+}
+
+/* Unread Notification Special Styling */
+.notificacion.no-leida {
+    border-left-color: #007bff;
+    background-color: #f0f6ff;
+}

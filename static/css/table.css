@@ -200,3 +200,26 @@
     text-align: center;
 }
 
+
+
+.buttom_boleta {
+    display: inline-block;
+    background-color: #4CAF50;  /* Fondo verde */
+    padding: 10px 15px;
+    border-radius: 5px;
+    font-size: 14px; /* Tamaño de la fuente */
+    font-weight: 600; 
+    text-decoration: none; /* Elimina el subrayado */
+    color: white; /* Color del icono */
+    transition: background-color 0.3s ease;
+  }
+  
+  .buttom_boleta:hover {
+    background-color: #45a049; /* Fondo más oscuro al pasar el ratón */
+  }
+  
+  .buttom_boleta i {
+    font-size: 18px; /* Ajusta el tamaño del icono */
+    padding-right: 4px;
+  }
+  

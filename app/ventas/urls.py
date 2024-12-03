@@ -12,4 +12,7 @@ urlpatterns = [
     
     # Detalle Ventas
     path('detalle/', views_detalle.DetalleListView.as_view(), name="listarDetalles"),
+    
+    #PDF 
+    path('venta/<int:pk>/boleta/', views.PdfView.as_view(), name="pdf"),
 ]

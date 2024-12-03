@@ -48,7 +48,8 @@ $(function() {
                 render: function(data, type, row) {
                     // Construir las URLs de edición y eliminación
                     var deleteUrl = baseUrl + 'delete/' + row.id + '/';
-                    buttons ='<a href="' + deleteUrl + '" class="buttom_eliminar"><i class="fas fa-trash-alt"></i> Eliminar</a>';        
+                    var buttons ='<a href="' + deleteUrl + '" class="buttom_eliminar"><i class="fas fa-trash-alt"></i> Eliminar</a>';        
+                    buttons +='<a href="/ventas/venta/'+row.id+'/boleta/" class="buttom_boleta"><i class="fa-solid fa-file"></i>Boleta</a>';        
                     return buttons;
                 }
             }

@@ -13,16 +13,12 @@
            </details>
         </li>
         {% endif %}
-        <li><a href="{% url 'ventas:crearVentas'%}"> Ventas</a></li>
-        <li><a href="{% url 'ventas:listarVentas'%}"> Registro Ventas </a></li>
-        <li><a href="{% url 'ventas:listarDetalles'%}"> Detalle Ventas</a></li>
+        <li><a href="{% url 'ventas:crearVentas'%}">Registrar Venta</a></li>
+        <li><a href="{% url 'ventas:listarVentas'%}">Ventas</a></li>
         <li><a href="{% url 'notificacion:listarNotificaciones' %}">Notificaciones</a></li>
-        <li><a href="#">Ayuda</a></li>
         {% if user.is_superuser %}
-            <li><a href="/admin/">Manejo de usuarios</a></li>
+            <li><a href="/admin/">Admin</a></li>
         {% endif %}
-        <li><a href="{% url 'users:register' %}">Registrarse</a></li>
-        <li><a href="{% url 'users:login' %}">Login</a></li>
         <li>
             <form class="logout" action="{% url 'users:logout' %}" method="post">
                 {% csrf_token %}

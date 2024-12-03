@@ -1,0 +1,92 @@
+/* Contenedor para los resultados de búsqueda */
+.product-result {
+    display: flex;
+    align-items: center;
+    padding: 8px;
+    border-bottom: 1px solid #ddd;
+    margin-bottom: 8px;
+    transition: all 0.3s ease; /* Transición suave */
+    border-radius: 8px; /* Bordes redondeados */
+}
+
+/* Imagen del producto */
+.product-result img {
+    border-radius: 10px;
+    width: 50px;
+    height: 50px;
+    margin-right: 10px;
+    object-fit: cover;
+    transition: transform 0.3s ease; /* Efecto de transformación al hacer hover */
+}
+
+/* Información del producto */
+.product-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    transition: color 0.3s ease; /* Transición suave para el color del texto */
+}
+
+/* Nombre del producto */
+.product-info strong {
+    font-size: 14px;
+    font-weight: bold;
+    margin-bottom: 4px;
+    color: #333; /* Color oscuro y elegante */
+}
+
+/* Información adicional como categoría, marca y código de barra */
+.product-info span {
+    font-size: 12px;
+    display: block;
+    color: #555; 
+}
+
+/* Código de barra */
+.product-info span:last-child {
+    font-size: 12px;
+    font-weight: bold;
+    color: orange;
+}
+
+/* Hover sobre el resultado de búsqueda (productos) */
+.product-result:hover {
+    background-color: #f7f7f7; /* Fondo suave y claro */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra sutil para darle profundidad */
+    transform: scale(1.02); /* Efecto de aumentar ligeramente el tamaño */
+}
+
+/* Hover sobre la imagen del producto */
+.product-result:hover img {
+    transform: scale(1.1); 
+}
+
+/* Hover sobre la información del producto */
+.product-result:hover .product-info {
+    color: #333; 
+}
+
+
+/* Personaliza el hover de los resultados de búsqueda en Select2 */
+.select2-results__option--highlighted {
+    background-color: #f7f7f7 !important; /* Color de fondo suave */
+    color: #00796b !important; /* Color de texto suave (puedes cambiar el color según tu diseño) */
+}
+
+/* Personaliza el hover cuando el resultado está seleccionado */
+.select2-results__option[aria-selected='true'] {
+    background-color: #f1f1f1 !important; /* Color de fondo suave para elementos seleccionados */
+    color: #00796b !important; /* Color de texto suave para elementos seleccionados */
+}
+
+/* Opcional: Personaliza el hover del contenedor de selección de productos */
+.select2-selection__rendered {
+    color: #333 !important; /* Color del texto seleccionado */
+}
+
+/* Si también deseas cambiar el color de fondo de la selección cuando no se hace hover */
+.select2-container--default .select2-selection--single {
+    background-color: #f7f7f7 !important;
+    border-radius: 4px; /* Bordes redondeados */
+    border: 1px solid #ddd;
+}

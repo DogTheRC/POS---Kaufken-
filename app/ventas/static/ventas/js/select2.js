@@ -225,7 +225,7 @@ $(function () {
     
     $('#formRegistrarVenta').on('submit', function(e) {
         e.preventDefault();
-    
+        
         if (venta.items.productos.length === 0) {
             alertError("Debe tener al menos un item en su detalle de venta");
             $('#eliminar_todo').addClass('d-none');
@@ -263,10 +263,23 @@ $(function () {
                     success: function(data) {
                         // Si no hay error, mostrar mensaje de éxito y redirigir
                         if (!data.hasOwnProperty('error')) {
-                            showConfirmationAlert('Operación exitosa',
-                                'La venta se ha registrado correctamente', 
-                                'success',
-                                '/ventas/venta/');
+                            // Aquí mostramos la confirmación para imprimir la boleta
+                            Swal.fire({
+                                title: '¿Deseas imprimir la boleta?',
+                                text: "Puedes elegir imprimir la boleta de esta venta o ir a la página de ventas.",
+                                icon: 'question',
+                                showCancelButton: true,
+                                confirmButtonText: 'Sí, imprimir boleta',
+                                cancelButtonText: 'No, ver venta',
+                            }).then((result) => {
+                                if (result.isConfirmed) {
+                                    // Redirige a la página de impresión de boleta
+                                    window.open('/ventas/venta/' + data.id + '/boleta/', '_blank');
+                                } else {
+                                    // Redirige a la página de la venta
+                                    window.location.href = '/ventas/venta/';
+                                }
+                            });
                         } else {
                             // Si hay un error, mostrarlo
                             alertError(data.error); // Asegúrate de que esta función esté definida

@@ -107,7 +107,7 @@ $(function() {
                         <td class="detalle-valor">${d.stock_minimo}</td>
                         <td class="detalle-valor">${d.descripcion}</td>
                         <td class="detalle-valor">${d.created_at}</td>
-                        <td class="detalle-valor">${d.updated_at}</td>
+                        <td class="detalle-valor">${d.update_at}</td>
                     </tr>
                 </tbody>
             </table>

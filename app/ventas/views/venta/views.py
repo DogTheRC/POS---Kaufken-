@@ -1,16 +1,26 @@
 import json
 from django.urls import reverse_lazy
 from django.shortcuts import render
-from django.http import JsonResponse
+from django.http import HttpResponseRedirect, JsonResponse
 from app.ventas.forms import VentaForm, DetalleVentaForm, PagoForm
 from app.productos.models import Producto
 from app.ventas.models import Venta, DetalleVenta, Pago
 from django.db.models import Q
 from django.db import transaction
-from django.views.generic import CreateView, ListView, DeleteView
+from django.views.generic import CreateView, ListView, DeleteView, View
 
 from kaufken.mixin import StaffMemberRequiredMixin
 from django.contrib.auth.mixins import LoginRequiredMixin
+import logging
+
+#PDF
+
+import os
+from django.conf import settings
+from django.contrib.staticfiles import finders
+from django.http import HttpResponse
+from django.template.loader import get_template
+from xhtml2pdf import pisa
 
 
 class VentaView(LoginRequiredMixin, CreateView):
@@ -64,6 +74,8 @@ class VentaView(LoginRequiredMixin, CreateView):
                         pago.save()
                         data['success'] = 'Venta, detalle y pago registrados correctamente'
                         
+                    data = {'id':venta.id}
+                        
             elif action == 'autocomplete':
                 data = {'results': []}
                 ids_exclude = json.loads(request.POST['ids'])     
@@ -115,6 +127,7 @@ class VentaListView(LoginRequiredMixin, StaffMemberRequiredMixin, ListView):
                     pagos = Pago.objects.filter(venta=venta)
                     venta_data['pagos'] = [pago.toJSON() for pago in pagos]
                     data.append(venta_data)
+                
             else:
                 data = {'error': 'No se ha ingresado ninguna acción.'}
         except Exception as error:
@@ -146,3 +159,84 @@ class VentaDeleteView(LoginRequiredMixin, StaffMemberRequiredMixin, DeleteView):
         context['list_url'] = self.success_url
         context['entity'] = 'Venta'
         return context
+    
+# Configurar un logger
+
+logger = logging.getLogger(__name__)
+
+class PdfView(View):
+    def link_callback(self, uri, rel):
+
+        result = finders.find(uri)
+
+        if result:
+            if not isinstance(result, (list, tuple)):
+                result = [result]
+            result = list(os.path.realpath(path) for path in result)
+            path = result[0]
+        else:
+            static_url = settings.STATIC_URL    # Usually /static/
+            static_root = settings.STATIC_ROOT  # Usually /home/user/project_static/
+            media_url = settings.MEDIA_URL      # Usually /media/
+            media_root = settings.MEDIA_ROOT    # Usually /home/user/project_static/media/
+
+            if uri.startswith(media_url):
+                path = os.path.join(media_root, uri.replace(media_url, ""))
+            elif uri.startswith(static_url):
+                path = os.path.join(static_root, uri.replace(static_url, ""))
+            else:
+                return uri
+
+        # make sure that file exists
+        if not os.path.isfile(path):
+            raise RuntimeError(
+                f'media URI must start with {static_url} or {media_url}'
+            )
+            
+    def get(self, request, *args, **kwargs):
+        try:
+            # Obtener la venta
+            venta = Venta.objects.get(pk=self.kwargs['pk'])
+            
+            # Renderizar el template
+            template = get_template("venta/boleta.html")
+            context = {
+                "venta": venta,
+                "empresa": {
+                    'nombre': 'KAUFKEN SPA',
+                    'rut': '20981282-9',
+                    'direccion': 'San Pedro 56, N° 14, Nacimiento',
+                    'telefono': '(55) 1234-5678',
+                    'email': 'kaufken@example.com'
+                },
+                'icon': os.path.join(settings.STATICFILES_DIRS[0], 'img', 'logo.png')
+            }
+            html = template.render(context)
+
+            # Crear la respuesta PDF
+            response = HttpResponse(content_type='application/pdf')
+            response['Content-Disposition'] = f'attachment; filename="boleta_venta_{venta.id}.pdf"'
+
+            # Generar el PDF
+            pisa_status = pisa.CreatePDF(
+                html, 
+                dest=response,
+                link_callback=self.link_callback)
+
+            if pisa_status.err:
+                # Log del error de generación del PDF
+                logger.error(f"Error al generar el PDF para la venta {venta.id}")
+                return HttpResponse('Hubo un error al generar el PDF')
+
+            return response
+
+        except Venta.DoesNotExist:
+            # Si la venta no se encuentra
+            logger.error(f"Venta con ID {self.kwargs['pk']} no encontrada.")
+            return HttpResponseRedirect(reverse_lazy('ventas:listarVentas'))
+
+        except Exception as e:
+            # Log de cualquier otro error
+            logger.error(f"Error al generar la boleta PDF: {e}")
+            return HttpResponseRedirect(reverse_lazy('ventas:listarVentas'))
+    
