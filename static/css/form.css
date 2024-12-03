@@ -1,215 +1,137 @@
+:root {
+    --color-primario: #285fa7;
+    --color-secundario: #007bff;
+    --color-fondo: #f4f7f9;
+    --color-texto: #333;
+    --color-borde: #e0e6ed;
+    --sombra-suave: 0 4px 15px rgba(0, 0, 0, 0.1);
+    --transicion: all 0.3s ease;
+  }
+  
+  .formulario {
 
-.form_h2 {
-    font-size: 32px; /* Tamaño de fuente más grande para un título más destacado */
-    font-weight: 700; /* Negrita más intensa para mayor énfasis */
-    color: #333; /* El mismo azul que has estado usando */
-    margin-bottom: 20px; /* Espaciado inferior para separación */
-    text-align: center; /* Centrado del texto */
-    border-bottom: 3px solid #285fa7; /* Línea más delgada pero con mayor énfasis */
-    padding-bottom: 12px; /* Aumentar el espaciado debajo de la línea */
-    text-transform: uppercase; /* Opcional: poner todo en mayúsculas para más estilo */
-    letter-spacing: 1.5px; /* Espaciado entre letras para mejorar la legibilidad */
-    transition: all 0.3s ease; /* Suavizar la transición al hacer hover */
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Sombra suave para darle profundidad */
-}
-
-
-
-/* Estilo global para el formulario */
-.formulario {
-    background-color: #fff;
+    margin: 30px 60px;
+    background-color: white;
     padding: 40px;
-    border-radius: 10px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-    margin: 20px;
-    transition: box-shadow 0.3s ease, transform 0.3s ease;
-    box-sizing: border-box;
-}
-
-/* Efecto de hover en el formulario */
-.formulario:hover {
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
-    transform: translateY(-5px); /* Levanta ligeramente el formulario al pasar el cursor */
-}
-
-
-/* Estilo para el título h2 dentro del formulario */
-
-
-
-
-/* Estilos de los campos de formulario (input, select, textarea) */
-.formulario input, 
-.formulario select, 
-.formulario textarea {
-    width: 100%;
-    padding: 14px;
-    margin: 12px 0 20px;
-    border: 1px solid #ddd;
-    border-radius: 6px;
-    background-color: #f9f9f9;
-    font-size: 16px;
-    color: #333;
-    transition: border-color 0.3s ease, background-color 0.3s ease;
-}
-
-/* Efecto focus para los campos */
-.formulario input:focus, 
-.formulario select:focus, 
-.formulario textarea:focus {
-    border-color: #007bff;
-    background-color: #fff;
-    outline: none;
-}
-
-/* Estilo para el botón del formulario */
-.button_formulario {
-    width: 100%; /* Ocupa todo el ancho del formulario */
-    padding: 14px;
-    background-color: #285fa7; /* Azul como en los demás elementos */
-    color: #fff; /* Texto blanco */
-    border: none; /* Sin borde */
-    border-radius: 6px; /* Bordes redondeados */
-    font-size: 16px;
-    font-weight: 600; /* Texto más destacado */
-    cursor: pointer; /* Cambia el cursor cuando pasa por encima */
-    transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease; /* Efectos de transición */
-    text-transform: uppercase; /* Texto en mayúsculas */
-    letter-spacing: 1px; /* Espaciado entre letras */
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Sombra suave */
-    display: inline-flex; /* Usamos inline-flex para que se mantenga el tamaño adecuado */
-    align-items: center; /* Centra verticalmente el contenido */
-    justify-content: center; /* Centra todo el contenido (icono + texto) */
-    gap: 8px; /* Espacio entre el icono y el texto */
-}
-
-/* Icono dentro del botón */
-.button_formulario i {
-    font-size: 20px; /* Tamaño del icono */
-    line-height: 0; /* Asegura que el ícono no tenga altura adicional */
-}
-
-/* Efecto hover para el botón */
-.button_formulario:hover {
-    background-color: #1d4980; /* Azul más oscuro cuando pasa el cursor */
-    transform: translateY(-3px); /* El botón se levanta ligeramente */
-    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15); /* Sombra más profunda */
-}
-
-/* Efecto al presionar (click) */
-.button_formulario:active {
-    background-color: #1b3f6a; /* Azul aún más oscuro */
-    transform: translateY(2px); /* Empuja el botón hacia abajo */
-    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1); /* Sombra más tenue */
-}
-
-
-/* Títulos y encabezados */
-.formulario h2 {
-    font-size: 28px;
+    border-radius: 12px;
+    box-shadow: var(--sombra-suave);
+    background: linear-gradient(135deg, #ffffff 0%, #f4f7f9 100%);
+    border: 1px solid var(--color-borde);
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .formulario::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle at center, rgba(40, 95, 167, 0.1) 0%, transparent 70%);
+    z-index: 1;
+    pointer-events: none;
+  }
+  
+  .formulario p {
     margin-bottom: 20px;
-    color: #333;
-    font-weight: bold;
-    text-align: center;
-    letter-spacing: 1px; /* Espaciado entre letras */
-}
-
-/* Estilo de los labels */
-.formulario label {
-    font-size: 16px;
-    color: #555;
-    margin-bottom: 8px;
+    position: relative;
+  }
+  
+  .formulario label {
     display: block;
-    font-weight: 600; /* Textos de los labels más visibles */
+    margin-bottom: 8px;
+    color: var(--color-primario);
+    font-weight: 600;
+    transition: var(--transicion);
+  }
+  .form_h2 {
+    font-size: 26px;
+    font-weight: 700;
+    color: #333;
+    margin-bottom: 15px;
+    text-align: center;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    position: relative;
+    padding-bottom: 10px; /* Espacio adicional debajo para que la línea decorativa no esté tan pegada */
 }
 
-/* Estilos para un contorno de error en campos de formulario */
-.formulario input.errorlist, 
-.formulario select.errorlist, 
-.formulario textarea.errorlist {
-    border-color: #dc3545;
-    background-color: #ffe6e6;
+.form_h2::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px; /* Ancho de la línea decorativa */
+    height: 4px; /* Grosor de la línea */
+    background-color: #007bff; /* Color de la línea */
 }
 
-
-
-.formulario .errorlist {
-    color: #dc3545; /* Rojo para los mensajes de error */
-    font-size: 14px;
-    margin-top: 10px;
-    margin-bottom: 20px;
-    padding: 10px;
-    border: 1px solid #dc3545; /* Borde rojo alrededor */
-    border-radius: 6px; /* Bordes redondeados */
-    background-color: #f8d7da; /* Fondo rojo suave */
-    list-style-type: none; /* Quitar los puntos de lista */
-    padding-left: 20px; /* Espaciado a la izquierda */
-}
-
-/* Estilo del texto de los errores */
-.formulario .errorlist li {
-    margin-bottom: 10px; /* Espaciado entre cada mensaje de error */
-    font-weight: 600; /* Resalta el texto */
-}
-
-.formulario .errorlist li::before {
-    content: "⚠️ "; /* Icono de advertencia antes de cada error */
-    color: #dc3545; /* Color del icono */
-    font-weight: bold;
+/* Efecto hover: cambia el color de la línea */
+.form_h2:hover::after {
+    background-color: #28a745; /* Verde al hacer hover */
 }
 
 
-/* Estilo para los errores generados */
-.error-message {
-    color: #dc3545;
-    font-size: 14px;
-    margin-bottom: 10px;
-    padding: 5px;
-    background-color: #f8d7da; /* Fondo suave rojo */
-    border-left: 4px solid #dc3545; /* Borde izquierdo rojo */
-    border-radius: 4px;
-}
-
-
-/* Estilo para el botón de cancelación */
-.button_formulario_cancel {
-    width: 100%; /* Ocupa todo el ancho del formulario */
-    text-decoration: none;
-    margin-top: 20px;
-    padding: 14px;
-    background-color: #dc3545; /* Rojo para indicar que es una acción de cancelación */
-    color: #fff; /* Texto blanco */
-    border: none; /* Sin borde */
-    border-radius: 6px; /* Bordes redondeados */
+  .formulario input, 
+  .formulario select, 
+  .formulario textarea {
+    width: 100%;
+    padding: 12px 15px;
+    border: 2px solid var(--color-borde);
+    border-radius: 8px;
+    background-color: white;
     font-size: 16px;
-    font-weight: 600; /* Texto más destacado */
-    cursor: pointer; /* Cambia el cursor cuando pasa por encima */
-    transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease; /* Efectos de transición */
-    text-transform: uppercase; /* Texto en mayúsculas */
-    letter-spacing: 1px; /* Espaciado entre letras */
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Sombra suave */
-    display: inline-flex; /* Usamos inline-flex para que se mantenga el tamaño adecuado */
-    align-items: center; /* Centra verticalmente el contenido */
-    justify-content: center; /* Centra todo el contenido (icono + texto) */
-    gap: 8px; /* Espacio entre el icono y el texto */
-}
-
-/* Icono dentro del botón de cancelación */
-.button_formulario_cancel i {
-    font-size: 20px; /* Tamaño del icono */
-    line-height: 0; /* Asegura que el ícono no tenga altura adicional */
-}
-
-/* Efecto hover para el botón de cancelación */
-.button_formulario_cancel:hover {
-    background-color: #c82333; /* Rojo más oscuro cuando pasa el cursor */
-    transform: translateY(-3px); /* El botón se levanta ligeramente */
-    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15); /* Sombra más profunda */
-}
-
-/* Efecto al presionar (click) */
-.button_formulario_cancel:active {
-    background-color: #bd2130; /* Rojo aún más oscuro */
-    transform: translateY(2px); /* Empuja el botón hacia abajo */
-    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1); /* Sombra más tenue */
-}
+    transition: var(--transicion);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+  }
+  
+  .formulario input:focus, 
+  .formulario select:focus, 
+  .formulario textarea:focus {
+    border-color: var(--color-secundario);
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.2);
+  }
+  
+  .button_formulario {
+    width: 100%;
+    padding: 15px;
+    background-color: var(--color-primario);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-size: 18px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: var(--transicion);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    box-shadow: 0 6px 15px rgba(40, 95, 167, 0.3);
+  }
+  
+  .button_formulario:hover {
+    background-color: #1d4980;
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(40, 95, 167, 0.4);
+  }
+  
+  .button_formulario i {
+    font-size: 22px;
+  }
+  
+  .form-control-file {
+    padding: 10px;
+    border: 2px dashed var(--color-borde);
+    border-radius: 8px;
+  }
+  
+  .form-check-input {
+    transform: scale(1.3);
+    margin-right: 10px;
+  }

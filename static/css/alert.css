@@ -1,0 +1,36 @@
+.errorlist {
+    color: #dc3545; /* Rojo para los mensajes de error */
+    font-size: 14px;
+    margin-top: 10px;
+    margin-bottom: 20px;
+    padding: 10px;
+    border: 1px solid #dc3545; /* Borde rojo alrededor */
+    border-radius: 6px; /* Bordes redondeados */
+    background-color: #f8d7da; /* Fondo rojo suave */
+    list-style-type: none; /* Quitar los puntos de lista */
+    padding-left: 20px; /* Espaciado a la izquierda */
+}
+
+/* Estilo del texto de los errores */
+.errorlist li {
+    margin-bottom: 10px; /* Espaciado entre cada mensaje de error */
+    font-weight: 600; /* Resalta el texto */
+}
+
+.errorlist li::before {
+    content: "⚠️ "; /* Icono de advertencia antes de cada error */
+    color: #dc3545; /* Color del icono */
+    font-weight: bold;
+}
+
+
+/* Estilo para los errores generados */
+.error-message {
+    color: #dc3545;
+    font-size: 14px;
+    margin-bottom: 10px;
+    padding: 5px;
+    background-color: #f8d7da; /* Fondo suave rojo */
+    border-left: 4px solid #dc3545; /* Borde izquierdo rojo */
+    border-radius: 4px;
+}

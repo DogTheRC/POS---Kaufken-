@@ -73,7 +73,8 @@ def validar_fechas(fecha_elaboracion, fecha_vencimiento):
     # No permitir fechas de vencimiento demasiado lejanas (por ejemplo más de 10 años)
     if fecha_vencimiento > fecha_elaboracion.replace(year=fecha_elaboracion.year + 10):
         raise ValidationError('La fecha de vencimiento no puede ser más de 10 años después de la fecha de elaboración.')
-
+    if fecha_vencimiento < date.today():
+        raise ValidationError('El producto ha vencido.')
 
 def validar_stock(stock, stock_minimo, stock_maximo, stock_critico):
     # 1. El stock mínimo no puede ser mayor que el stock máximo

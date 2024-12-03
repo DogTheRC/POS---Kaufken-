@@ -26,6 +26,7 @@ class Categoria(models.Model):
         super().clean()
     
     class Meta:
+        ordering = ['-created_at']
         db_table = 'categoria'
 
     
@@ -46,6 +47,7 @@ class Marca(models.Model):
         validar_nombre_general(self.nombre, tipo="marca")
         super().clean()
     class Meta:
+        ordering = ['-created_at']
         db_table = 'marca'
 
 # Modelo de Producto
@@ -83,12 +85,11 @@ class Producto(models.Model):
         
         nombre_producto = generar_nombre_producto(self.categoria, self.marca, self.nombre, self.descripcion, self.codigo_barra)
         item['nombre'] = nombre_producto
-
         item['categoria_nombre'] = self.categoria.nombre if self.categoria else "Desconocida"
         item['marca_nombre'] = self.marca.nombre if self.marca else "Desconocida"
-        
         item['autor_nombre'] = self.autor.username if self.autor else "Desconocido"
-        
+        item['created_at'] = self.created_at.strftime('%d-%m-%Y %H:%M')
+        item['update_at'] = self.updated_at.strftime('%d-%m-%Y %H:%M')        
         if self.imagen:
             item['imagen'] = self.imagen.url
 
@@ -111,5 +112,6 @@ class Producto(models.Model):
     
     class Meta:
         db_table = 'producto'
+        ordering = ['-created_at']
         
 

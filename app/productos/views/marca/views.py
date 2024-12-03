@@ -4,12 +4,13 @@ from django.http import  JsonResponse
 from django.urls import reverse_lazy
 from django.utils.decorators import method_decorator
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView
-
 from app.productos.forms import MarcaForm
 from app.productos.models import Marca
+from kaufken.mixin import StaffMemberRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin
 
-@method_decorator(staff_member_required, name='dispatch')
-class MarcaListView(ListView):
+
+class MarcaListView(LoginRequiredMixin, StaffMemberRequiredMixin,ListView):
     model = Marca
     template_name = "marca/table.html"
     def dispatch(self, request, *args, **kwargs):
@@ -35,8 +36,8 @@ class MarcaListView(ListView):
             data['error'] = str(error)
         return JsonResponse(data, safe=False)
 
-@method_decorator(staff_member_required, name='dispatch')
-class MarcaCreateView(CreateView):
+
+class MarcaCreateView(LoginRequiredMixin, StaffMemberRequiredMixin,CreateView):
     model = Marca
     template_name = "marca/crear.html"
     form_class = MarcaForm
@@ -69,8 +70,8 @@ class MarcaCreateView(CreateView):
             data['error'] = str(error)
         return JsonResponse(data)
 
-@method_decorator(staff_member_required, name='dispatch')
-class MarcaUpdateView(UpdateView):
+
+class MarcaUpdateView(LoginRequiredMixin, StaffMemberRequiredMixin,UpdateView):
     model = Marca
     template_name = "marca/crear.html"
     form_class = MarcaForm
@@ -109,8 +110,8 @@ class MarcaUpdateView(UpdateView):
         context['entity'] = 'Marca'
         return context
 
-@method_decorator(staff_member_required, name='dispatch') 
-class MarcaDeleteView(DeleteView):
+ 
+class MarcaDeleteView(LoginRequiredMixin, StaffMemberRequiredMixin, DeleteView):
     model = Marca
     template_name = "marca/delete.html"
     success_url = reverse_lazy('productos:listarMarcas')  

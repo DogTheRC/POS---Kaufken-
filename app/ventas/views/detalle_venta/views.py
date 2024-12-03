@@ -1,14 +1,13 @@
 
 from django.urls import reverse_lazy
-from django.shortcuts import get_object_or_404, render, redirect
 from django.http import JsonResponse
 from app.ventas.models import DetalleVenta
 from django.views.generic import CreateView, ListView, DeleteView, FormView
-from django.contrib.admin.views.decorators import staff_member_required
-from django.utils.decorators import method_decorator
+from django.contrib.auth.mixins import LoginRequiredMixin
+from kaufken.mixin import StaffMemberRequiredMixin
 
-@method_decorator(staff_member_required, name='dispatch')
-class DetalleListView(ListView):
+
+class DetalleListView(LoginRequiredMixin, StaffMemberRequiredMixin, ListView):
     model = DetalleVenta
     template_name = "detalle_venta/table.html"
     def dispatch(self, request, *args, **kwargs):

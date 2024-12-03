@@ -1,18 +1,19 @@
 import json
 from django.urls import reverse_lazy
-from django.shortcuts import get_object_or_404, render, redirect
+from django.shortcuts import render
 from django.http import JsonResponse
 from app.ventas.forms import VentaForm, DetalleVentaForm, PagoForm
 from app.productos.models import Producto
 from app.ventas.models import Venta, DetalleVenta, Pago
 from django.db.models import Q
 from django.db import transaction
-from django.views.generic import CreateView, ListView, DeleteView, FormView
-from django.contrib.admin.views.decorators import staff_member_required
-from django.utils.decorators import method_decorator
+from django.views.generic import CreateView, ListView, DeleteView
 
-@method_decorator(staff_member_required, name='dispatch')
-class VentaView(CreateView):
+from kaufken.mixin import StaffMemberRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin
+
+
+class VentaView(LoginRequiredMixin, CreateView):
     template_name = "venta/venta.html"
     form_class = VentaForm
     success_url = reverse_lazy('')  
@@ -31,14 +32,12 @@ class VentaView(CreateView):
 
     def post(self, request, *args, **kwargs):
         data = {}
-
         try:
             action = request.POST.get('action')
             if action == 'add':
                 with transaction.atomic():
                     
                     ventas = json.loads(request.POST['ventas'])
-                    print(ventas)
                     venta = Venta()
                     
                     user = self.request.user
@@ -88,8 +87,8 @@ class VentaView(CreateView):
             data['error'] = str(e)
         return JsonResponse(data,safe=False) 
 
-@method_decorator(staff_member_required, name='dispatch')
-class VentaListView(ListView):
+
+class VentaListView(LoginRequiredMixin, StaffMemberRequiredMixin, ListView):
     model = Venta
     template_name = "venta/table.html"
     def dispatch(self, request, *args, **kwargs):
@@ -102,21 +101,28 @@ class VentaListView(ListView):
         return context
 
     def post(self, request, *args, **kwargs):
-        data = {}
-        action = request.POST['action']
+        data = []
+        action = request.POST.get('action', '')
         try:
             if action == 'search':
-                data = []
-                for i in Venta.objects.all():
-                    data.append(i.toJSON())
+                ventas = Venta.objects.all()  # Obtener todas las ventas
+                for venta in ventas:
+                    venta_data = venta.toJSON()  # Obtener datos de la venta
+                    # Obtener los detalles de la venta
+                    detalles = DetalleVenta.objects.filter(venta=venta)
+                    venta_data['detalles'] = [detalle.toJSON() for detalle in detalles]
+                    # Obtener los pagos asociados a la venta
+                    pagos = Pago.objects.filter(venta=venta)
+                    venta_data['pagos'] = [pago.toJSON() for pago in pagos]
+                    data.append(venta_data)
             else:
-                data['error'] = 'No a ingresado ninguna accion'
+                data = {'error': 'No se ha ingresado ninguna acción.'}
         except Exception as error:
-             data = {'error': str(error)}
+            data = {'error': str(error)}
         return JsonResponse(data, safe=False)
     
-@method_decorator(staff_member_required, name='dispatch') 
-class VentaDeleteView(DeleteView):
+
+class VentaDeleteView(LoginRequiredMixin, StaffMemberRequiredMixin, DeleteView):
     model = Venta
     template_name = "venta/delete.html"
     success_url = reverse_lazy('ventas:listarVentas')  

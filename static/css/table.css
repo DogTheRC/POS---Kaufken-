@@ -141,3 +141,62 @@
 }
 
 
+
+/* Estilo para la tabla */
+.detalle-tabla {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    background-color: white;
+}
+
+/* Estilo para las celdas de cabecera */
+.detalle-tabla th, .detalle-tabla td {
+    padding: 12px 16px;
+    text-align: left;
+    border: 1px solid #ddd;
+    color: #333;
+    font-size: 14px;
+}
+
+/* Estilo para la cabecera de la tabla */
+.detalle-tabla th {
+    background-color: #f4f4f4;
+    font-weight: 600;
+}
+
+/* Estilo para los campos destacados (como títulos) */
+.detalle-campo {
+    font-weight: bold;
+    background-color: #f9f9f9;
+    text-align: center;
+    font-size: 15px;
+    color: #333;
+}
+
+/* Estilo para los valores de la tabla */
+.detalle-valor {
+    font-size: 14px;
+    text-align: center;
+    color: #333;
+}
+
+/* Estilo para las imágenes dentro de la tabla */
+.detalle-tabla img {
+    max-width: 80px;
+    height: auto;
+    border-radius: 5px;
+}
+
+/* Efecto hover para filas */
+.detalle-tabla tr:hover {
+    background-color: #f1f1f1;
+}
+
+/* Estilo para celdas de texto centrado */
+.detalle-tabla .centered {
+    text-align: center;
+}
+

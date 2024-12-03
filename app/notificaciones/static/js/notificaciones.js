@@ -67,33 +67,46 @@ $(document).ready(function () {
         });
     }
 
-    // Evento para marcar una notificación como leída
     $('#notificaciones-list').on('click', '.btn-marcar-leida', function () {
         const notificacionId = $(this).data('id');  // Obtener el ID de la notificación
-        $.ajax({
-            url: window.location.pathname,  // La misma URL que en el método 'search'
-            type: 'POST',
-            data: {
-                action: 'mark_as_read',
-                id: notificacionId
-            },
-            dataType: 'JSON',
-            success: function (response) {
-                if (!response.hasOwnProperty('error')) {
-                    // Si no hay error, actualizamos la notificación en la UI
-                    $(`.notificacion[data-id="${notificacionId}"]`).removeClass('no-leida').addClass('leida');
-                    alert('Notificación marcada como leída');
-                    
-                    // Recargar las notificaciones que aún están no leídas
-                    cargarNotificaciones();
-                } else {
-                    console.error(response.error);
-                    alert(response.error);
+        
+        // Llamada a la función showConfirmationAlert con los parámetros
+        showConfirmationAlert(
+            "Confirmación", // Título
+            "¿Estás seguro de que deseas marcar esta notificación como leída?", // Texto
+            "warning", // Icono
+            window.location.pathname // URL para la acción (puedes personalizarla si es necesario)
+        );
+        
+        // Acción que se ejecutará si el usuario confirma la acción
+        Swal.fire({
+            title: 'Notificación marcada como leída',
+            icon: 'success',
+            confirmButtonText: 'Aceptar'
+        }).then(() => {
+            $.ajax({
+                url: window.location.pathname,  // La misma URL que en el método 'search'
+                type: 'POST',
+                data: {
+                    action: 'mark_as_read',
+                    id: notificacionId
+                },
+                dataType: 'JSON',
+                success: function (response) {
+                    if (!response.hasOwnProperty('error')) {
+                        // Si no hay error, actualizamos la notificación en la UI
+                        $(`.notificacion[data-id="${notificacionId}"]`).removeClass('no-leida').addClass('leida');
+                        // Recargar las notificaciones que aún están no leídas
+                        cargarNotificaciones();
+                    } else {
+                        console.error(response.error);
+                        alert(response.error);
+                    }
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    console.error(`${textStatus}: ${errorThrown}`);
                 }
-            },
-            error: function (jqXHR, textStatus, errorThrown) {
-                console.error(`${textStatus}: ${errorThrown}`);
-            }
+            });
         });
     });
 

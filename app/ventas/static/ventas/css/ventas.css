@@ -63,7 +63,6 @@
 
 .limpiar_busqueda i {
     font-size: 20px;
-    margin-right: 10px;
 }
 
 .limpiar_busqueda:hover {
@@ -72,7 +71,7 @@
 }
 
 /* Botón eliminar todo */
-.eliminar_todo {
+#eliminar_todo {
     background-color: #f44336;
     color: white;
     border: none;
@@ -93,12 +92,12 @@
     font-weight: 600; /* Optional: slightly bolder text */
 }
 
-.eliminar_todo:hover {
+#eliminar_todo:hover {
     background-color: #d32f2f;
     transform: translateY(-2px);
 }
 
-.eliminar_todo i {
+#eliminar_todo i {
     font-size: 16px; /* Slightly smaller icon */
     margin-right: 5px;
 }
@@ -320,6 +319,84 @@ input.form-control:focus {
     display: flex;
     align-items: center;
 }
+
+
+
+/* Contenedor de vuelto */
+#vuelto {
+    background-color: #f8f9fa;
+    border: 2px solid #e9ecef;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+    margin-top: 20px;
+}
+
+/* Título del vuelto */
+#vuelto h4 {
+    font-size: 20px;
+    color: #4a4a4a;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+/* Input del vuelto */
+#vuelto-efectivo {
+    font-size: 18px;
+    font-weight: bold;
+    color: #2ecc71;
+    background-color: #ffffff;
+    border: 2px solid #e9ecef;
+    padding: 14px;
+    width: 100%;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
+    text-align: center;
+}
+
+/* Estilo para el input cuando es readonly */
+#vuelto-efectivo:readonly {
+    background-color: #f1f3f5;
+    color: #4a4a4a;
+}
+
+/* Estilo al enfocar el input */
+#vuelto-efectivo:focus {
+    border-color: #4a90e2;
+    box-shadow: 0 4px 10px rgba(74, 144, 226, 0.15);
+}
+
+
+.form_h2 {
+    font-size: 26px;
+    font-weight: 700;
+    color: #333;
+    margin-bottom: 15px;
+    text-align: center;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    position: relative;
+    padding-bottom: 10px; /* Espacio adicional debajo para que la línea decorativa no esté tan pegada */
+}
+
+.form_h2::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px; /* Ancho de la línea decorativa */
+    height: 4px; /* Grosor de la línea */
+    background-color: #007bff; /* Color de la línea */
+}
+
+/* Efecto hover: cambia el color de la línea */
+.form_h2:hover::after {
+    background-color: #28a745; /* Verde al hacer hover */
+}
+
+
 
 
 /* Responsive Design */

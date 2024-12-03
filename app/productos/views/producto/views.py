@@ -5,12 +5,13 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse_lazy
 from django.utils.decorators import method_decorator
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
-
 from app.productos.forms import ProductoForm
 from app.productos.models import Producto
+from kaufken.mixin import StaffMemberRequiredMixin 
+from django.contrib.auth.mixins import LoginRequiredMixin
 
-@method_decorator(staff_member_required, name='dispatch')
-class ProductoListView(ListView):
+
+class ProductoListView(LoginRequiredMixin ,StaffMemberRequiredMixin, ListView):
     model = Producto
     template_name = "producto/inventario.html"
     def dispatch(self, request, *args, **kwargs):
@@ -38,11 +39,12 @@ class ProductoListView(ListView):
              data = {'error': str(error)}
         return JsonResponse(data, safe=False)
 
-@method_decorator(staff_member_required, name='dispatch')
-class ProductoCreateView(CreateView):
+
+class ProductoCreateView(LoginRequiredMixin, StaffMemberRequiredMixin, CreateView):
     model = Producto
     template_name = "producto/crear.html"
     form_class = ProductoForm
+    success_url = reverse_lazy('productos:listarProductos')
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Crear Producto'
@@ -71,8 +73,8 @@ class ProductoCreateView(CreateView):
             data['error'] = str(error)
         return JsonResponse(data)
 
-@method_decorator(staff_member_required, name='dispatch')
-class ProductoUpdateView(UpdateView):
+
+class ProductoUpdateView(LoginRequiredMixin, StaffMemberRequiredMixin, UpdateView):
     model = Producto
     template_name = "producto/crear.html"
     form_class = ProductoForm
@@ -95,7 +97,6 @@ class ProductoUpdateView(UpdateView):
                 form = ProductoForm(request.POST, request.FILES, instance=self.object)
                 if form.is_valid():
                     producto = form.save(commit=False)
-                    print(producto)
                     producto.autor = self.request.user  # Asigna el autor al producto
                     producto.save()  # Guarda el producto actualizado
                     data['success'] = 'Producto actualizado correctamente'
@@ -115,8 +116,8 @@ class ProductoUpdateView(UpdateView):
         context['entity'] = 'Producto'
         return context
 
-@method_decorator(staff_member_required, name='dispatch') 
-class ProductoDeleteView(DeleteView):
+
+class ProductoDeleteView(LoginRequiredMixin, StaffMemberRequiredMixin, DeleteView):
     model = Producto
     template_name = "producto/delete.html"
     success_url = reverse_lazy('productos:listarProductos')  
@@ -144,3 +145,6 @@ class ProductoDeleteView(DeleteView):
         context['list_url'] = self.success_url
         context['entity'] = 'Producto'
         return context
+    
+    
+    

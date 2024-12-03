@@ -24,7 +24,7 @@ var venta = {
             total += dict.subtotal;
         });
         this.items.total = total;
-        $('input[name="total"]').val(total);
+        $('input[name="total"]').val('$' + total);
     },
     add: function(item) {
         var existe = this.items.productos.find(prod => prod.codigo_barra === item.codigo_barra);
@@ -81,7 +81,7 @@ var venta = {
                     class: 'text-center',
                     orderable: false,
                     render: function(data, type, row) {
-                        return '$' + parseFloat(data).toFixed(2);
+                        return '$' + parseFloat(data);
                     }
                 },
                 {
@@ -112,20 +112,25 @@ var venta = {
         });
 
         if (this.items.productos.length === 0) {
+            $('#eliminar_todo').addClass('d-none');
             $('#id_metodo_pago').val('');
             venta.items.pagos = [];
             $('#id_metodo_pago').attr('disabled', 'disabled');  // Deshabilitar si no hay productos
         } else {
+            $('#eliminar_todo').removeClass('d-none');
             $('#id_metodo_pago').removeAttr('disabled');  // Habilitar si hay productos
         }
     },
 
 }
+
+
+
 $(function () {
     // Inicialización de select2 para el elemento con nombre "search"
     $('.select2[name="search"]').select2({
         language: "es",
-        allowClear: true,
+
         ajax: {
             delay: 250,
             url: window.location.pathname,
@@ -179,6 +184,12 @@ $(function () {
             return data.text || "Seleccione un producto";  // Nombre del producto o texto por defecto
         }
     });
+
+    $('.limpiar_busqueda').on('click', function() {
+        // Limpiar el select2 y el campo de búsqueda
+        $('.select2[name="search"]').val(null).trigger('change');  // Esto limpia el campo de búsqueda
+    });
+
     $('.select2[name="search"]').on('select2:select', function (event) {
         console.clear();
         var selectedItem = event.params.data;  // Obtenemos los datos seleccionados
@@ -188,7 +199,7 @@ $(function () {
         console.log("Datos actuales de venta.items:", venta.items);
     });
 
-    $('.eliminar_todo').on('click', function(){
+    $('#eliminar_todo').on('click', function(){
         alert_confirm("Notificaciones", "Estas Seguro de eliminar todo los items?",
             function(){
                 venta.items.productos = [];
@@ -196,9 +207,7 @@ $(function () {
             }
         )
     });
-     
 
-    
     //envento Eliminar 
     $('#table tbody')
     .on('click', 'a[rel="remove"]', function() {
@@ -211,7 +220,7 @@ $(function () {
         var tr = tabla.cell($(this).closest('td, li')).index();
         venta.items.productos[tr.row].cantidad = cantidad;
         venta.calcular_invoice();
-        $('td:eq(7)',tabla.row(tr.row).node()).html('$'+venta.items.productos[tr.row].subtotal.toFixed(2));
+        $('td:eq(7)',tabla.row(tr.row).node()).html('$'+venta.items.productos[tr.row].subtotal);
     });
     
     $('#formRegistrarVenta').on('submit', function(e) {
@@ -219,6 +228,7 @@ $(function () {
     
         if (venta.items.productos.length === 0) {
             alertError("Debe tener al menos un item en su detalle de venta");
+            $('#eliminar_todo').addClass('d-none');
             return; // Salir de la función si no hay productos en la venta
         }
     
@@ -287,7 +297,7 @@ $(function () {
         saldoRestante = Math.max(0, saldoRestante);
         
         // Actualizar el span de saldo restante
-        $("#saldo-restante").text(`Efectivo Restante: $${saldoRestante.toFixed(2)}`);
+        $("#saldo-restante").text(`Efectivo Restante: $${saldoRestante}`);
     }
    
     
@@ -299,7 +309,7 @@ $(function () {
         venta.items.pagos = []; // Limpiar pagos anteriores
         
         // Resetear saldo restante
-        $("#saldo-restante").text(`Saldo Restante: $${venta.items.total.toFixed(2)}`);
+        $("#saldo-restante").text(`Saldo Restante: $${venta.items.total}`);
     
         if (metodoPagoSeleccionado === "EF") {
             $("#primer_pago").removeClass('d-none');
@@ -344,7 +354,7 @@ $(function () {
                     let vuelto = monto - total;
                     
                     $("#vuelto").removeClass('d-none');
-                    $("#vuelto-efectivo").val(vuelto.toFixed(2));
+                    $("#vuelto-efectivo").val(vuelto);
                     $("#segundo-pago").addClass('d-none');
     
                     // Agregar pago único en efectivo
@@ -359,7 +369,7 @@ $(function () {
                     
                     $("#segundo-pago").removeClass('d-none');
                     $("#vuelto").addClass('d-none');
-                    $("#monto_segundo").val(montoSegundo.toFixed(2));
+                    $("#monto_segundo").val(montoSegundo);
     
                     $("#metodo_pago_segundo").val("TD");
                     $("#metodo_pago_segundo").prop('disabled', true);
@@ -411,7 +421,7 @@ $(function () {
         $("#id_monto").val(''); 
         
         // Resetear saldo restante
-        $("#saldo-restante").text(`Saldo Restante: $${venta.items.total.toFixed(2)}`);
+        $("#saldo-restante").text(`Saldo Restante: $${venta.items.total}`);
         
         // Limpiar el array de pagos
         venta.items.pagos = [];

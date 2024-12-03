@@ -1,16 +1,18 @@
 
-from django.contrib.admin.views.decorators import staff_member_required
 from django.http import  JsonResponse
-from django.shortcuts import  get_object_or_404
+
 from django.urls import reverse_lazy
-from django.utils.decorators import method_decorator
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 
 from app.productos.forms import CategoriaForm
 from app.productos.models import Categoria
 
-@method_decorator(staff_member_required, name='dispatch')
-class CategoriaListView(ListView):
+from kaufken.mixin import StaffMemberRequiredMixin
+
+from django.contrib.auth.mixins import LoginRequiredMixin
+
+
+class CategoriaListView(LoginRequiredMixin, StaffMemberRequiredMixin,ListView):
     model = Categoria
     template_name = "categoria/table.html"
     def dispatch(self, request, *args, **kwargs):
@@ -36,8 +38,8 @@ class CategoriaListView(ListView):
             data['error'] = str(error)
         return JsonResponse(data, safe=False)
 
-@method_decorator(staff_member_required, name='dispatch')
-class CategoriaCreateView(CreateView):
+
+class CategoriaCreateView(LoginRequiredMixin, StaffMemberRequiredMixin, CreateView):
     model = Categoria
     template_name = "categoria/crear.html"
     form_class = CategoriaForm
@@ -70,8 +72,7 @@ class CategoriaCreateView(CreateView):
             data['error'] = str(error)
         return JsonResponse(data)
 
-@method_decorator(staff_member_required, name='dispatch')
-class CategoriaUpdateView(UpdateView):
+class CategoriaUpdateView(LoginRequiredMixin, StaffMemberRequiredMixin, UpdateView):
     model = Categoria
     template_name = "categoria/crear.html"
     form_class = CategoriaForm
@@ -110,8 +111,8 @@ class CategoriaUpdateView(UpdateView):
         context['entity'] = 'Categoria'
         return context
 
-@method_decorator(staff_member_required, name='dispatch') 
-class CategoriaDeleteView(DeleteView):
+
+class CategoriaDeleteView(LoginRequiredMixin, StaffMemberRequiredMixin, DeleteView):
     model = Categoria
     template_name = "categoria/delete.html"
     success_url = reverse_lazy('productos:listarCategorias')  

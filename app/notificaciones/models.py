@@ -11,6 +11,8 @@ class Notificacion(models.Model):
         ('stock_minimo', 'Producto en stock minimo'),
         ('stock_critico', 'Producto en stock critico'),
         ('sin_stock', 'Producto sin stock'),
+        ('fecha_vencimiento', 'Producto cerca de Fecha de Vencimiento'),
+        ('producto_vencido', 'Producto Vencido'),
         ('comentario', 'Comentario'),
     ]
     tipo = models.CharField(max_length=50, choices=TIPO_CHOICES)

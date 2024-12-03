@@ -3,9 +3,9 @@ from django.contrib.auth.models import User
 from app.productos.models import Producto
 from decimal import Decimal
 from django.forms.models import model_to_dict
+from app.ventas.validation import *
 
 
-# Modelo para Métodos de Pago (opcional)
 class Venta(models.Model):
     usuario = models.ForeignKey(User, on_delete=models.PROTECT)
     create_at = models.DateTimeField(auto_now_add=True)
@@ -29,11 +29,14 @@ class Venta(models.Model):
             detalle.producto.save()  # Guardamos el producto actualizado
         super(Venta, self).delete(using=using, keep_parents=keep_parents)  # Eliminamos la venta
 
+    def clean(self):
+        validate_venta(self)
     def __str__(self):
         return f"Venta {self.id} - Usuario: {self.usuario}"
 
     class Meta:
         db_table = 'venta'
+        ordering = ['-create_at']
         
 
 class Pago(models.Model):
@@ -49,10 +52,14 @@ class Pago(models.Model):
     
     def toJSON(self):
         item = model_to_dict(self)
+        item['fecha_pago'] = self.fecha_pago.strftime('%d-%m-%Y %H:%M')
         return item
 
     def __str__(self):
         return f"Pago {self.id} - Venta: {self.venta.id} - Monto: {self.monto}"
+    
+    def clean(self):
+        validate_pago(self)
 
     class Meta:
         db_table = 'pago'
@@ -75,11 +82,13 @@ class DetalleVenta(models.Model):
         item['producto_nombre'] = self.producto.nombre if self.producto else "Desconocida"
         return item
     
-    class Meta:
-        db_table = 'detalle_venta'
-
+    def clean(self):
+        validate_detalle_venta(self) 
     def __str__(self):
         return f"Detalle {self.id} - Venta: {self.venta.id}"
+    
+    class Meta:
+        db_table = 'detalle_venta'
 
 
 class Caja(models.Model):

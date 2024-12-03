@@ -41,4 +41,7 @@ class ProductoForm(forms.ModelForm):
             'fecha_vencimiento': forms.DateInput(format='%Y-%m-%d',attrs={'class': 'form-control', 'type': 'date', 'required':'required'}),
             'is_active': forms.CheckboxInput(attrs={'class': 'form-check-input'})
         }
+        labels = {
+            'is_active': 'Producto Activo',  # Aquí se cambia el nombre del campo a "Producto Activo"
+        }
         

@@ -1,55 +1,52 @@
-from django.shortcuts import redirect, render
-from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+from django.contrib.auth.views import LoginView, LogoutView
+from django.contrib.auth.forms import UserCreationForm
+from django.views.generic.edit import CreateView
 from django.contrib.sessions.models import Session
-from django.contrib.auth import login, logout
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth import login
+from django.urls import reverse_lazy
 from .models import Visitor
-# Create your views here.
-def register_view(request):
-    if request.method == "POST": 
-        form = UserCreationForm(request.POST) 
-        if form.is_valid(): 
-            login(request, form.save())
-            return redirect("/")
-    else:
-        form = UserCreationForm()
-    return render(request, "users/register.html", { "form": form })
 
-def login_view(request):
-    if request.method == "POST": 
-        form = AuthenticationForm(data=request.POST) 
-        if form.is_valid(): 
-            user = form.get_user()
-            login(request, form.get_user())
+class CustomLoginView(LoginView):
+    template_name = 'users/login.html'
+    
+    def form_valid(self, form):
+        user = form.get_user()
+        
+        # Handle existing Visitor session
+        if hasattr(user, 'visitor'):
+            # Delete previous session if exists
+            if Session.objects.filter(session_key=user.visitor.session_key).exists():
+                Session.objects.get(session_key=user.visitor.session_key).delete()
             
-                        # Verifica si el usuario ya tiene una sesión activa
-            if hasattr(user, 'visitor'):
-                # Si existe, eliminamos la sesión anterior
-                if Session.objects.filter(session_key=user.visitor.session_key).exists():
-                    old_session = Session.objects.get(session_key=user.visitor.session_key)
-                    old_session.delete()
+            # Remove previous Visitor object
+            user.visitor.delete()
+        
+        # Perform login
+        response = super().form_valid(form)
+        
+        # Create new Visitor entry
+        new_session_key = self.request.session.session_key
+        Visitor.objects.create(target_user=user, session_key=new_session_key)
+        
+        return response
 
-                # Eliminar el objeto Visitor anterior
-                user.visitor.delete()
-
-            # Realiza el inicio de sesión
-            login(request, user)
-
-            # Guarda la nueva sesión en el modelo Visitor
-            new_session_key = request.session.session_key
-            Visitor.objects.create(target_user=user, session_key=new_session_key)
-
-            
-            return redirect("/")
-    else:
-        form = AuthenticationForm()
-    return render(request, "users/login.html", { "form": form })
-
-@login_required(login_url="users:login") # Añade esta decoración a las vistas que requieren estar logueados
-def logout_view(request):
-    if request.method == "POST":
+class CustomLogoutView(LogoutView):
+    next_page = 'users:login'
+    
+    def dispatch(self, request, *args, **kwargs):
+        # Delete Visitor entry if exists
         if hasattr(request.user, 'visitor'):
             request.user.visitor.delete()
-        logout(request)  # Cierra la sesión del usuario
-        return redirect('users:login')  # Redirige a la página de inicio de sesión
-    return render(request, 'users:login')  # En caso de acceso directo, redirige
+        
+        return super().dispatch(request, *args, **kwargs)
+
+class CustomRegisterView(CreateView):
+    form_class = UserCreationForm
+    template_name = 'users/register.html'
+    success_url = reverse_lazy('home')
+    
+    def form_valid(self, form):
+        response = super().form_valid(form)
+        user = form.save()
+        login(self.request, user)
+        return response
